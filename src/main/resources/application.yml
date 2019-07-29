@@ -1,0 +1,28 @@
+external:
+  library:
+    url:
+      merlin:
+        guides: https://merlin.pl/catalog/ksiazki-m10349074/poradniki-c468/
+        romances: https://merlin.pl/catalog/ksiazki-m10349074/romanse-c1774/
+        biographies: https://merlin.pl/catalog/ksiazki-m10349074/biografie-c100115/
+        bestsellers: https://merlin.pl/bestseller/?option_80=10349074
+        crime: https://merlin.pl/catalog/ksiazki-m10349074/kryminal-i-sensacja-c495/
+        fantasy: https://merlin.pl/catalog/ksiazki-m10349074/fantastyka-c467/
+        concrete:
+          book: https://merlin.pl/%s/%s
+        most:
+          precise:
+            book: https://merlin.pl/catalog/ksiazki-m10349074/?q=%s
+      empik:
+        guides: https://www.empik.com/ksiazki/poradniki
+        romances: https://www.empik.com/ksiazki/romans
+        biographies: https://www.empik.com/ksiazki/biografie-i-dokument
+        bestSellers: https://www.empik.com/bestsellery/ksiazki
+        crime: https://www.empik.com/ksiazki-sensacja-kryminal
+        fantasy: https://www.empik.com/ksiazki/literatura-fantastyka
+        concrete:
+          book: https://www.empik.com/%s,%s,ksiazka-p
+        most:
+          precise:
+            book: https://www.empik.com/ksiazki,31,s?sort=scoreDesc&q=%s
+
