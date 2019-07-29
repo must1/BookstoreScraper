@@ -7,8 +7,9 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Service
 public class MerlinFetchingBookService {
@@ -40,21 +41,15 @@ public class MerlinFetchingBookService {
     }
 
     public List<Book> get5BestSellersMerlin(Document document) {
-        List<Book> merlinBestSellers = new ArrayList<>();
-
-        for (int iterator = 1; iterator < BESTSELLERS_NUMBER_TO_FETCH; iterator++) {
-            merlinBestSellers.add(getBestSellerOrCategorizedBook(document, iterator));
-        }
-        return merlinBestSellers;
+        return IntStream.range(1, BESTSELLERS_NUMBER_TO_FETCH)
+                .mapToObj(iterator -> getBestSellerOrCategorizedBook(document, iterator))
+                .collect(Collectors.toList());
     }
 
     public List<Book> get15BooksFromCategory(Document document) {
-        List<Book> books = new ArrayList<>();
-
-        for (int iterator = 1; iterator < CATEGORIZED_BOOKS_NUMBER_TO_FETCH; iterator++) {
-            books.add(getBestSellerOrCategorizedBook(document, iterator));
-        }
-        return books;
+        return IntStream.range(1, CATEGORIZED_BOOKS_NUMBER_TO_FETCH)
+                .mapToObj(iterator -> getBestSellerOrCategorizedBook(document, iterator))
+                .collect(Collectors.toList());
     }
 
     //Todo

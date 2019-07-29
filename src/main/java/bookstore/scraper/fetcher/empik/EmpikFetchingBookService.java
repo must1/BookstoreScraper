@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Service
 public class EmpikFetchingBookService {
@@ -18,6 +19,8 @@ public class EmpikFetchingBookService {
 
     private static final int BESTSELLERS_NUMBER_TO_FETCH = 5;
     private static final int CATEGORIZED_BOOKS_NUMBER_TO_FETCH = 15;
+    private static final String DIV_PRODUCT_WRAPPER = "div.productWrapper";
+    private static final String DATA_PRODUCT_ID = "data-product-id";
 
     private final EmpikUrlProperties empikUrlProperties;
 
@@ -29,8 +32,8 @@ public class EmpikFetchingBookService {
     public Book getMostPreciseEmpikBook(Document document) {
         String author = document.select("div.smartAuthorWrapper.ta-product-smartauthor").select("a").first().text();
         String price = convertEmpikPriceWithPossibleDiscountToActualPrice(document.select("div.price.ta-price-tile").first().text());
-        String title = document.select("div.productWrapper").select("strong").first().text();
-        String productID = document.select("div.productWrapper").select("a").first().attr("data-product-id");
+        String title = document.select(DIV_PRODUCT_WRAPPER).select("strong").first().text();
+        String productID = document.select(DIV_PRODUCT_WRAPPER).select("a").first().attr(DATA_PRODUCT_ID);
         String bookUrl = createBookURL(title, productID);
 
         return new Book.BookBuilder()
@@ -43,45 +46,51 @@ public class EmpikFetchingBookService {
     }
 
     public List<Book> get5BestSellersEmpik(Document document) {
-        List<Element> siteElements = document.select("div.productWrapper");
+        List<Element> siteElements = document.select(DIV_PRODUCT_WRAPPER);
         List<Book> empikBestSellers = new ArrayList<>();
 
-        for (int i = 0; i < BESTSELLERS_NUMBER_TO_FETCH; i++) {
-            String author = siteElements.get(i).select("div.smartAuthorWrapper.ta-product-smartauthor").select("a").first().text();
-            String price = convertEmpikPriceWithPossibleDiscountToActualPrice(siteElements.get(i).select("div.price.ta-price-tile").first().text());
-            String title = siteElements.get(i).select("strong").first().ownText();
-            String productID = siteElements.get(i).select("div.productWrapper").select("a").first().attr("data-product-id");
-            String bookUrl = createBookURL(title, productID);
+        IntStream.range(0, BESTSELLERS_NUMBER_TO_FETCH)
+                .forEach(iteratedElement -> {
 
-            empikBestSellers.add(new Book.BookBuilder()
-                    .withAuthor(author)
-                    .withPrice(price)
-                    .withTitle(title)
-                    .withProductID(productID)
-                    .withBookUrl(bookUrl)
-                    .build());
-        }
+                    String author = siteElements.get(iteratedElement).select("div.smartAuthorWrapper.ta-product-smartauthor").select("a").first().text();
+                    String price = convertEmpikPriceWithPossibleDiscountToActualPrice(siteElements.get(iteratedElement).select("div.price.ta-price-tile").first().text());
+                    String title = siteElements.get(iteratedElement).select("strong").first().ownText();
+                    String productID = siteElements.get(iteratedElement).select(DIV_PRODUCT_WRAPPER).select("a").first().attr(DATA_PRODUCT_ID);
+                    String bookUrl = createBookURL(title, productID);
+
+                    empikBestSellers.add(new Book.BookBuilder()
+                            .withAuthor(author)
+                            .withPrice(price)
+                            .withTitle(title)
+                            .withProductID(productID)
+                            .withBookUrl(bookUrl)
+                            .build());
+                });
         return empikBestSellers;
     }
 
     public List<Book> get15BooksFromCategory(Document document) {
         List<Book> books = new ArrayList<>();
         List<Element> siteElements = document.select("div.productBox__info");
-        for (int iterator = 0; iterator < CATEGORIZED_BOOKS_NUMBER_TO_FETCH; iterator++) {
-            String author = executeFetchingAuthorProcess(siteElements, iterator);
-            String price = convertEmpikPriceWithPossibleDiscountToActualPrice(siteElements.get(iterator).select("div.productBox__price").first().text());
-            String title = siteElements.get(iterator).select("span").first().ownText();
-            String productID = siteElements.get(iterator).select("a").first().attr("data-product-id");
-            String bookUrl = createBookURL(title, productID);
 
-            books.add(new Book.BookBuilder()
-                    .withAuthor(author)
-                    .withPrice(price)
-                    .withTitle(title)
-                    .withProductID(productID)
-                    .withBookUrl(bookUrl)
-                    .build());
-        }
+        IntStream.range(0, CATEGORIZED_BOOKS_NUMBER_TO_FETCH)
+                .forEach(iteratedElement -> {
+
+                    String author = executeFetchingAuthorProcess(siteElements, iteratedElement);
+                    String price = convertEmpikPriceWithPossibleDiscountToActualPrice(siteElements.get(iteratedElement).select("div.productBox__price").first().text());
+                    String title = siteElements.get(iteratedElement).select("span").first().ownText();
+                    String productID = siteElements.get(iteratedElement).select("a").first().attr(DATA_PRODUCT_ID);
+                    String bookUrl = createBookURL(title, productID);
+
+                    books.add(new Book.BookBuilder()
+                            .withAuthor(author)
+                            .withPrice(price)
+                            .withTitle(title)
+                            .withProductID(productID)
+                            .withBookUrl(bookUrl)
+                            .build());
+                });
+
         return books;
     }
 

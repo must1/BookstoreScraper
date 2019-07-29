@@ -1,4 +1,4 @@
-package bookstore.scraper;
+package bookstore.scraper.enums;
 
 public enum Bookstore {
     EMPIK, MERLIN

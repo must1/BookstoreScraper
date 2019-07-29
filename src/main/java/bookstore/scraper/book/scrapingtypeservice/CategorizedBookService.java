@@ -1,6 +1,6 @@
 package bookstore.scraper.book.scrapingtypeservice;
 
-import bookstore.scraper.Bookstore;
+import bookstore.scraper.enums.Bookstore;
 import bookstore.scraper.book.Book;
 import bookstore.scraper.fetcher.empik.EmpikFetchingBookService;
 import bookstore.scraper.fetcher.merlin.MerlinFetchingBookService;

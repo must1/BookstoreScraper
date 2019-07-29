@@ -1,11 +1,12 @@
 package bookstore.scraper.controller;
 
-import bookstore.scraper.Bookstore;
+import bookstore.scraper.enums.Bookstore;
 import bookstore.scraper.book.Book;
 import bookstore.scraper.book.scrapingtypeservice.BestSellersService;
 import bookstore.scraper.book.scrapingtypeservice.CategorizedBookService;
 import bookstore.scraper.book.scrapingtypeservice.MostPreciseBookService;
-import bookstore.scraper.rankingsystem.CategorizedBooksRanking;
+import bookstore.scraper.enums.CategoryType;
+import bookstore.scraper.rankingsystem.CategorizedBooksRankingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,10 +21,10 @@ public class BookController {
     private final MostPreciseBookService mostPreciseBookService;
     private final CategorizedBookService categorizedBookService;
     private final BestSellersService bestSellersService;
-    private final CategorizedBooksRanking categorizedBooksRanking;
+    private final CategorizedBooksRankingService categorizedBooksRanking;
 
     @Autowired
-    public BookController(MostPreciseBookService bookOperationsService, CategorizedBookService categorizedBookService, BestSellersService bestSellersService, CategorizedBooksRanking categorizedBooksRanking) {
+    public BookController(MostPreciseBookService bookOperationsService, CategorizedBookService categorizedBookService, BestSellersService bestSellersService, CategorizedBooksRankingService categorizedBooksRanking) {
         this.mostPreciseBookService = bookOperationsService;
         this.categorizedBookService = categorizedBookService;
         this.bestSellersService = bestSellersService;
@@ -65,8 +66,8 @@ public class BookController {
         return categorizedBookService.get15BooksFromCrimeCategory();
     }
 
-    @GetMapping("/{category}/ranking")
-    public Map<String, Integer> getRankingForCategory(@PathVariable String category) {
-        return categorizedBooksRanking.getRankingForCategory(category);
+    @GetMapping("/{categoryType}/ranking")
+    public Map<String, Integer> getRankingForCategory(@PathVariable CategoryType categoryType) {
+        return categorizedBooksRanking.getRankingForCategory(CategoryType.forName(categoryType));
     }
 }
