@@ -7,13 +7,12 @@ import bookstore.scraper.fetcher.merlin.MerlinFetchingBookService;
 import bookstore.scraper.urlproperties.EmpikUrlProperties;
 import bookstore.scraper.urlproperties.MerlinUrlProperties;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
-import static bookstore.scraper.JSoupConnector.connect;
+import static bookstore.scraper.utilities.JSoupConnector.connect;
 
 @Service
 public class MostPreciseBookService {
@@ -21,15 +20,8 @@ public class MostPreciseBookService {
     private final EmpikFetchingBookService empikBookService;
     private final MerlinFetchingBookService merlinBookService;
 
-
     private final EmpikUrlProperties empikUrlProperties;
     private final MerlinUrlProperties merlinUrlProperties;
-
-    @Value("${external.library.url.empik.most.precise.book}")
-    private String mostPreciseBookEmpikURL;
-
-    @Value("${external.library.url.merlin.most.precise.book}")
-    private String mostPreciseBookMerlinURL;
 
     @Autowired
     public MostPreciseBookService(EmpikFetchingBookService empikBookService, MerlinFetchingBookService merlinBookService, EmpikUrlProperties empikUrlProperties, MerlinUrlProperties merlinUrlProperties) {
@@ -40,20 +32,20 @@ public class MostPreciseBookService {
     }
 
     public Map<Bookstore, Book> getBookByTitle(String title) {
-        Map<Bookstore, Book> bookstoreWithMostPreciseBook = new HashMap<>();
+        Map<Bookstore, Book> bookstoreWithMostPreciseBook = new EnumMap<>(Bookstore.class);
 
         bookstoreWithMostPreciseBook.put(Bookstore.MERLIN,
                 merlinBookService.getMostPreciseMerlinBook(
-                        connect(concatURLWithTitle(mostPreciseBookMerlinURL, title))));
+                        connect(concatUrlWithTitle(merlinUrlProperties.getMerlin().getMostPreciseBook(), title))));
 
         bookstoreWithMostPreciseBook.put(Bookstore.EMPIK,
                 empikBookService.getMostPreciseEmpikBook(
-                        connect(concatURLWithTitle(mostPreciseBookEmpikURL, title))));
+                        connect(concatUrlWithTitle(empikUrlProperties.getEmpik().getMostPreciseBook(), title))));
 
         return bookstoreWithMostPreciseBook;
     }
 
-    private String concatURLWithTitle(String URL, String title) {
-        return String.format(URL, title);
+    private String concatUrlWithTitle(String url, String title) {
+        return String.format(url, title);
     }
 }

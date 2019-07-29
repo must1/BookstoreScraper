@@ -28,7 +28,7 @@ public class Book {
             return this;
         }
 
-        public BookBuilder withBookURL(String bookURL) {
+        public BookBuilder withBookUrl(String bookURL) {
             this.bookURL = bookURL;
             return this;
         }

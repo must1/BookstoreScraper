@@ -9,11 +9,11 @@ import bookstore.scraper.urlproperties.MerlinUrlProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-import static bookstore.scraper.JSoupConnector.connect;
+import static bookstore.scraper.utilities.JSoupConnector.connect;
 
 @Service
 public class BestSellersService {
@@ -32,7 +32,7 @@ public class BestSellersService {
     }
 
     public Map<Bookstore, List<Book>> getBestSellers() {
-        Map<Bookstore, List<Book>> bookstoreWithBestSellers = new HashMap<>();
+        Map<Bookstore, List<Book>> bookstoreWithBestSellers = new EnumMap<>(Bookstore.class);
 
         bookstoreWithBestSellers.put(Bookstore.EMPIK, empikBookService
                 .get5BestSellersEmpik(connect(empikUrlProperties.getEmpik().getBestSellers())));

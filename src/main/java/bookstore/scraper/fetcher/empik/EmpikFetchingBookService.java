@@ -1,9 +1,10 @@
 package bookstore.scraper.fetcher.empik;
 
 import bookstore.scraper.book.Book;
+import bookstore.scraper.urlproperties.EmpikUrlProperties;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,40 +15,30 @@ public class EmpikFetchingBookService {
 
     private static final int FIRST_PART = 0;
     private static final int SECOND_PART = 1;
-    @Value("${external.library.url.empik.concrete.book}")
-    private String concreteBookEmpikURL;
-
-    @Value("${external.library.url.empik.romances}")
-    private String romancesCategoryEmpikURL;
-
-    @Value("${external.library.url.empik.biographies}")
-    private String biographiesCategoryEmpikURL;
-
-    @Value("${external.library.url.empik.crime}")
-    private String crimeCategoryEmpikURL;
-
-    @Value("${external.library.url.empik.guides}")
-    private String guidesCategoryEmpikURL;
-
-    @Value("${external.library.url.empik.fantasy}")
-    private String fantasyCategoryEmpikURL;
 
     private static final int BESTSELLERS_NUMBER_TO_FETCH = 5;
     private static final int CATEGORIZED_BOOKS_NUMBER_TO_FETCH = 15;
+
+    private final EmpikUrlProperties empikUrlProperties;
+
+    @Autowired
+    public EmpikFetchingBookService(EmpikUrlProperties empikUrlProperties) {
+        this.empikUrlProperties = empikUrlProperties;
+    }
 
     public Book getMostPreciseEmpikBook(Document document) {
         String author = document.select("div.smartAuthorWrapper.ta-product-smartauthor").select("a").first().text();
         String price = convertEmpikPriceWithPossibleDiscountToActualPrice(document.select("div.price.ta-price-tile").first().text());
         String title = document.select("div.productWrapper").select("strong").first().text();
         String productID = document.select("div.productWrapper").select("a").first().attr("data-product-id");
-        String bookURL = createBookURL(title, productID);
+        String bookUrl = createBookURL(title, productID);
 
         return new Book.BookBuilder()
                 .withAuthor(author)
                 .withPrice(price)
                 .withTitle(title)
                 .withProductID(productID)
-                .withBookURL(bookURL)
+                .withBookUrl(bookUrl)
                 .build();
     }
 
@@ -60,14 +51,14 @@ public class EmpikFetchingBookService {
             String price = convertEmpikPriceWithPossibleDiscountToActualPrice(siteElements.get(i).select("div.price.ta-price-tile").first().text());
             String title = siteElements.get(i).select("strong").first().ownText();
             String productID = siteElements.get(i).select("div.productWrapper").select("a").first().attr("data-product-id");
-            String bookURL = createBookURL(title, productID);
+            String bookUrl = createBookURL(title, productID);
 
             empikBestSellers.add(new Book.BookBuilder()
                     .withAuthor(author)
                     .withPrice(price)
                     .withTitle(title)
                     .withProductID(productID)
-                    .withBookURL(bookURL)
+                    .withBookUrl(bookUrl)
                     .build());
         }
         return empikBestSellers;
@@ -81,14 +72,14 @@ public class EmpikFetchingBookService {
             String price = convertEmpikPriceWithPossibleDiscountToActualPrice(siteElements.get(iterator).select("div.productBox__price").first().text());
             String title = siteElements.get(iterator).select("span").first().ownText();
             String productID = siteElements.get(iterator).select("a").first().attr("data-product-id");
-            String BookURL = createBookURL(title, productID);
+            String bookUrl = createBookURL(title, productID);
 
             books.add(new Book.BookBuilder()
                     .withAuthor(author)
                     .withPrice(price)
                     .withTitle(title)
                     .withProductID(productID)
-                    .withBookURL(BookURL)
+                    .withBookUrl(bookUrl)
                     .build());
         }
         return books;
@@ -100,7 +91,7 @@ public class EmpikFetchingBookService {
     }
 
     private String createBookURL(String title, String productID) {
-        return String.format(concreteBookEmpikURL, title, productID);
+        return String.format(empikUrlProperties.getEmpik().getConcreteBook(), title, productID);
     }
 
     //method is required as on empik site, sometimes occurs null for author and we need to change code for fetching

@@ -10,11 +10,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-import static bookstore.scraper.JSoupConnector.connect;
+import static bookstore.scraper.utilities.JSoupConnector.connect;
 
 @Service
 @Slf4j
@@ -23,7 +23,6 @@ public class CategorizedBookService {
     private final EmpikFetchingBookService empikBookService;
     private final MerlinFetchingBookService merlinFetchingBookService;
     private final EmpikUrlProperties empikUrlProperties;
-
     private final MerlinUrlProperties merlinUrlProperties;
 
     @Autowired
@@ -55,7 +54,7 @@ public class CategorizedBookService {
     }
 
     private Map<Bookstore, List<Book>> get15BooksFrom(String bookStoreEmpikURL, String bookStoreMerlinURL) {
-        Map<Bookstore, List<Book>> bookstoreWith15CategorizedBooks = new HashMap<>();
+        Map<Bookstore, List<Book>> bookstoreWith15CategorizedBooks = new EnumMap<>(Bookstore.class);
 
         bookstoreWith15CategorizedBooks.put(Bookstore.EMPIK, empikBookService
                 .get15BooksFromCategory(connect(bookStoreEmpikURL)));
