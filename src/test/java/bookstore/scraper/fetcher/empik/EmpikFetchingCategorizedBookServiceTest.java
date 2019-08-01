@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
-public class EmpikFetchingBookServiceTest {
+public class EmpikFetchingCategorizedBookServiceTest {
 
     @Autowired
     EmpikFetchingBookService empikFetchingBookService;
@@ -37,7 +37,7 @@ public class EmpikFetchingBookServiceTest {
 
     private static File getFile(String resourceName) {
         try {
-            return new File(EmpikFetchingBookServiceTest.class.getResource(resourceName).toURI());
+            return new File(EmpikFetchingCategorizedBookServiceTest.class.getResource(resourceName).toURI());
         } catch (URISyntaxException e) {
             throw new IllegalStateException(e);
         }
