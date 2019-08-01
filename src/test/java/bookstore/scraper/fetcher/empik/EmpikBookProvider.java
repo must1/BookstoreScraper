@@ -1,49 +1,13 @@
 package bookstore.scraper.fetcher.empik;
 
 import bookstore.scraper.book.Book;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+class EmpikBookProvider {
 
-@SpringBootTest
-@RunWith(SpringRunner.class)
-public class EmpikFetchingCategorizedBookServiceTest {
-
-    @Autowired
-    EmpikFetchingBookService empikFetchingBookService;
-
-    @Test
-    public void get15BooksFromCrimeCategory() throws IOException {
-        File in = getFile("/CrimeCategoryEmpik.html");
-        Document doc = Jsoup.parse(in, "UTF-8");
-
-        List<Book> actualBooks = empikFetchingBookService.get15BooksFromCategory(doc);
-        List<Book> expectedBooks = prepare15CrimeBooks();
-
-        assertEquals(expectedBooks, actualBooks);
-    }
-
-    private static File getFile(String resourceName) {
-        try {
-            return new File(EmpikFetchingCategorizedBookServiceTest.class.getResource(resourceName).toURI());
-        } catch (URISyntaxException e) {
-            throw new IllegalStateException(e);
-        }
-    }
-
-    private List<Book> prepare15CrimeBooks() {
+    static List<Book> prepare15CrimeBooks() {
         return Arrays.asList(
                 new Book.BookBuilder().withAuthor("Puzyńska Katarzyna").withTitle("Pokrzyk").build(),
                 new Book.BookBuilder().withAuthor("Lillegraven Ruth").withTitle("Odbiorę ci wszystko").build(),
@@ -60,5 +24,18 @@ public class EmpikFetchingCategorizedBookServiceTest {
                 new Book.BookBuilder().withAuthor("Mróz Remigiusz").withTitle("Inwigilacja. Joanna Chyłka. Tom 5").build(),
                 new Book.BookBuilder().withAuthor("Tudor C. J.").withTitle("Zniknięcie Annie Thorne").build(),
                 new Book.BookBuilder().withAuthor("Mróz Remigiusz").withTitle("Kontratyp. Joanna Chyłka. Tom 8").build());
+    }
+
+    static Book prepareMostPreciseBook() {
+        return new Book.BookBuilder().withAuthor("Sienkiewicz Henryk").withTitle("W pustyni i w puszczy. Lektura z opracowaniem").build();
+    }
+
+    static List<Book> prepare5Bestsellers() {
+        return Arrays.asList(
+                new Book.BookBuilder().withAuthor("Petitcollin Christel").withTitle("Jak mniej myśleć. Dla analizujących bez końca i wysoko wrażliwych").build(),
+                new Book.BookBuilder().withAuthor("Lipińska Blanka").withTitle("Kolejne 365 dni").build(),
+                new Book.BookBuilder().withAuthor("Głowińska Anita").withTitle("Kicia Kocia w pociągu").build(),
+                new Book.BookBuilder().withAuthor("Głowińska Anita").withTitle("Kicia Kocia i straszna burza").build(),
+                new Book.BookBuilder().withAuthor("Głowińska Anita").withTitle("Kicia Kocia. Witaminowe przyjęcie").build());
     }
 }

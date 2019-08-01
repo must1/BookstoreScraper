@@ -15,7 +15,7 @@ import java.util.stream.IntStream;
 public class MerlinFetchingBookService {
 
     private static final int BESTSELLERS_NUMBER_TO_FETCH = 6;
-    private static final int CATEGORIZED_BOOKS_NUMBER_TO_FETCH = 15;
+    private static final int CATEGORIZED_BOOKS_NUMBER_TO_FETCH = 16;
 
     private final MerlinUrlProperties merlinUrlProperties;
 
