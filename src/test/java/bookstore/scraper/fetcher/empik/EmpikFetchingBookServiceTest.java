@@ -14,7 +14,9 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import static bookstore.scraper.fetcher.empik.EmpikBookProvider.*;
+import static bookstore.scraper.dataprovider.EmpikBookProvider.prepare15CrimeBooks;
+import static bookstore.scraper.dataprovider.EmpikBookProvider.prepare5Bestsellers;
+import static bookstore.scraper.dataprovider.EmpikBookProvider.prepareMostPreciseBook;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
@@ -24,7 +26,7 @@ import static org.junit.Assert.assertEquals;
 public class EmpikFetchingBookServiceTest {
 
     @Autowired
-    EmpikFetchingBookService empikFetchingBookService;
+    private EmpikFetchingBookService empikFetchingBookService;
 
     @Test
     public void get15BooksFromCrimeCategory() throws IOException {
@@ -60,7 +62,6 @@ public class EmpikFetchingBookServiceTest {
 
         assertEquals(expectedBooks, actualBooks);
     }
-
 
     private File getFile(String resourceName) {
         try {

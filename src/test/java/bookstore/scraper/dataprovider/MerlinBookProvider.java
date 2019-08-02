@@ -1,13 +1,16 @@
-package bookstore.scraper.fetcher.merlin;
+package bookstore.scraper.dataprovider;
 
 import bookstore.scraper.book.Book;
+import bookstore.scraper.enums.Bookstore;
 
 import java.util.Arrays;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 public class MerlinBookProvider {
 
-    static List<Book> prepare15CrimeBooks() {
+    public static List<Book> prepare15CrimeBooks() {
         return Arrays.asList(
                 new Book.BookBuilder().withAuthor("Richard Hill-Whittal").withTitle("Indie games. Podręcznik niezależnego twórcy gier").build(),
                 new Book.BookBuilder().withAuthor("Jo Nesbo").withTitle("NÓŻ").build(),
@@ -27,19 +30,27 @@ public class MerlinBookProvider {
 
     }
 
-    static Book prepareMostPreciseBook() {
+    public static Book prepareMostPreciseBook() {
         return new Book.BookBuilder()
                 .withAuthor("Henryk Sienkiewicz")
                 .withTitle("W pustyni i w puszczy. Lektury z omówieniem, szkoła podstawowa")
                 .build();
     }
 
-    static List<Book> prepare5Bestsellers() {
+    public static List<Book> prepare5Bestsellers() {
         return Arrays.asList(new Book.BookBuilder().withAuthor("Richard Hill-Whittal").withTitle("Indie games. Podręcznik niezależnego twórcy gier")
                 .build(), new Book.BookBuilder().withAuthor("Jo Nesbo").withTitle("NÓŻ")
                 .build(), new Book.BookBuilder().withAuthor("Joanna Steinke-Kalembka").withTitle("Dodaj mi skrzydeł. Jak rozwijać u dzieci motywację wewnętrzną?")
                 .build(), new Book.BookBuilder().withAuthor("Yuval Zommer").withTitle("Wielka księga robali")
                 .build(), new Book.BookBuilder().withAuthor("Katarzyna Grochola").withTitle("ZRANIĆ MARIONETKĘ")
                 .build());
+    }
+
+    public static Map<Bookstore, List<Book>> prepareMapWithBookstoreAndCrimeBooks() {
+        java.util.Map<Bookstore, List<Book>> map = new EnumMap<>(Bookstore.class);
+        map.put(Bookstore.EMPIK, EmpikBookProvider.prepare15CrimeBooks());
+        map.put(Bookstore.MERLIN, MerlinBookProvider.prepare15CrimeBooks());
+
+        return map;
     }
 }

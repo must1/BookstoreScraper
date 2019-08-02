@@ -1,13 +1,13 @@
-package bookstore.scraper.fetcher.empik;
+package bookstore.scraper.dataprovider;
 
 import bookstore.scraper.book.Book;
 
 import java.util.Arrays;
 import java.util.List;
 
-class EmpikBookProvider {
+public class EmpikBookProvider {
 
-    static List<Book> prepare15CrimeBooks() {
+    public static List<Book> prepare15CrimeBooks() {
         return Arrays.asList(
                 new Book.BookBuilder().withAuthor("Puzyńska Katarzyna").withTitle("Pokrzyk").build(),
                 new Book.BookBuilder().withAuthor("Lillegraven Ruth").withTitle("Odbiorę ci wszystko").build(),
@@ -26,11 +26,11 @@ class EmpikBookProvider {
                 new Book.BookBuilder().withAuthor("Mróz Remigiusz").withTitle("Kontratyp. Joanna Chyłka. Tom 8").build());
     }
 
-    static Book prepareMostPreciseBook() {
+    public static Book prepareMostPreciseBook() {
         return new Book.BookBuilder().withAuthor("Sienkiewicz Henryk").withTitle("W pustyni i w puszczy. Lektura z opracowaniem").build();
     }
 
-    static List<Book> prepare5Bestsellers() {
+    public static List<Book> prepare5Bestsellers() {
         return Arrays.asList(
                 new Book.BookBuilder().withAuthor("Petitcollin Christel").withTitle("Jak mniej myśleć. Dla analizujących bez końca i wysoko wrażliwych").build(),
                 new Book.BookBuilder().withAuthor("Lipińska Blanka").withTitle("Kolejne 365 dni").build(),

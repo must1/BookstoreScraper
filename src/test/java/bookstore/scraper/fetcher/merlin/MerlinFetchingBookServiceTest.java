@@ -17,7 +17,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 
-import static bookstore.scraper.fetcher.merlin.MerlinBookProvider.*;
+import static bookstore.scraper.dataprovider.MerlinBookProvider.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
@@ -26,7 +26,7 @@ import static org.junit.Assert.assertEquals;
 public class MerlinFetchingBookServiceTest {
 
     @Autowired
-    MerlinFetchingBookService merlinFetchingBookService;
+    private MerlinFetchingBookService merlinFetchingBookService;
 
     @Test
     public void getMostPreciseMerlinBook() throws IOException {
