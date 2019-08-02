@@ -15,7 +15,9 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 import static bookstore.scraper.fetcher.empik.EmpikBookProvider.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
+
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -33,6 +35,7 @@ public class EmpikFetchingBookServiceTest {
         List<Book> expectedBooks = prepare15CrimeBooks();
 
         assertEquals(expectedBooks, actualBooks);
+        assertThat(actualBooks).hasSize(expectedBooks.size());
     }
 
     @Test
@@ -44,6 +47,7 @@ public class EmpikFetchingBookServiceTest {
         List<Book> expectedBooks = prepare5Bestsellers();
 
         assertEquals(expectedBooks, actualBooks);
+        assertThat(actualBooks).hasSize(expectedBooks.size());
     }
 
     @Test

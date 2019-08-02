@@ -2,6 +2,7 @@ package bookstore.scraper.fetcher.merlin;
 
 import bookstore.scraper.book.Book;
 import bookstore.scraper.fetcher.empik.EmpikFetchingBookServiceTest;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
@@ -15,7 +16,9 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 
+
 import static bookstore.scraper.fetcher.merlin.MerlinBookProvider.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 @SpringBootTest
@@ -34,11 +37,18 @@ public class MerlinFetchingBookServiceTest {
         Book expectedBooks = prepareMostPreciseBook();
 
         assertEquals(expectedBooks, actualBooks);
-
     }
 
     @Test
-    public void get5BestSellersMerlin() {
+    public void get5BestSellersMerlin() throws IOException {
+        File in = getFile("/merlin/BestsellersMerlin.html");
+        Document doc = Jsoup.parse(in, "UTF-8");
+
+        List<Book> actualBooks = merlinFetchingBookService.get5BestSellersMerlin(doc);
+        List<Book> expectedBooks = prepare5Bestsellers();
+
+        assertEquals(expectedBooks, actualBooks);
+        assertThat(actualBooks).hasSize(expectedBooks.size());
     }
 
     @Test
@@ -50,6 +60,7 @@ public class MerlinFetchingBookServiceTest {
         List<Book> expectedBooks = prepare15CrimeBooks();
 
         assertEquals(expectedBooks, actualBooks);
+        assertThat(actualBooks).hasSize(expectedBooks.size());
     }
 
     private File getFile(String resourceName) {
