@@ -9,7 +9,7 @@ import java.io.IOException;
 @UtilityClass
 public class JSoupConnector {
 
-    public Document connect(String url) {
+    public static Document connect(String url) {
         try {
             return Jsoup.connect(url).get();
         } catch (IOException e) {
