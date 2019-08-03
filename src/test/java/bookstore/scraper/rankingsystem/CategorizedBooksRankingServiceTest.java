@@ -13,9 +13,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import java.util.List;
 import java.util.Map;
 
+import static bookstore.scraper.dataprovider.MerlinBookProvider.prepareExpectedRankingMap;
 import static bookstore.scraper.dataprovider.MerlinBookProvider.prepareMapWithBookstoreAndCrimeBooks;
-import static bookstore.scraper.dataprovider.RankingSystemBookProvider.prepareExpectedRankingMap;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -38,6 +37,5 @@ public class CategorizedBooksRankingServiceTest {
         Map<String, Integer> expectedMap = prepareExpectedRankingMap();
 
         assertEquals(expectedMap, actualMap);
-        assertThat(actualMap).hasSize(expectedMap.size());
     }
 }

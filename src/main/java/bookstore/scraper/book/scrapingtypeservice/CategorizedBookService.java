@@ -6,6 +6,7 @@ import bookstore.scraper.fetcher.empik.EmpikFetchingBookService;
 import bookstore.scraper.fetcher.merlin.MerlinFetchingBookService;
 import bookstore.scraper.urlproperties.EmpikUrlProperties;
 import bookstore.scraper.urlproperties.MerlinUrlProperties;
+import bookstore.scraper.utilities.JSoupConnector;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,6 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-import static bookstore.scraper.utilities.JSoupConnector.connect;
 
 @Service
 @Slf4j
@@ -24,13 +24,15 @@ public class CategorizedBookService {
     private final MerlinFetchingBookService merlinFetchingBookService;
     private final EmpikUrlProperties empikUrlProperties;
     private final MerlinUrlProperties merlinUrlProperties;
+    private final JSoupConnector jSoupConnector;
 
     @Autowired
-    public CategorizedBookService(EmpikFetchingBookService empikBookService, MerlinFetchingBookService merlinFetchingBookService, EmpikUrlProperties empikUrlProperties, MerlinUrlProperties merlinUrlProperties) {
+    public CategorizedBookService(EmpikFetchingBookService empikBookService, MerlinFetchingBookService merlinFetchingBookService, EmpikUrlProperties empikUrlProperties, MerlinUrlProperties merlinUrlProperties, JSoupConnector jSoupConnector) {
         this.empikBookService = empikBookService;
         this.merlinFetchingBookService = merlinFetchingBookService;
         this.empikUrlProperties = empikUrlProperties;
         this.merlinUrlProperties = merlinUrlProperties;
+        this.jSoupConnector = jSoupConnector;
     }
 
     public Map<Bookstore, List<Book>> get15BooksFromRomanceCategory() {
@@ -57,9 +59,9 @@ public class CategorizedBookService {
         Map<Bookstore, List<Book>> bookstoreWith15CategorizedBooks = new EnumMap<>(Bookstore.class);
 
         bookstoreWith15CategorizedBooks.put(Bookstore.EMPIK, empikBookService
-                .get15BooksFromCategory(connect(bookStoreEmpikURL)));
+                .get15BooksFromCategory(jSoupConnector.connect(bookStoreEmpikURL)));
         bookstoreWith15CategorizedBooks.put(Bookstore.MERLIN, merlinFetchingBookService
-                .get15BooksFromCategory(connect(bookStoreMerlinURL)));
+                .get15BooksFromCategory(jSoupConnector.connect(bookStoreMerlinURL)));
 
         return bookstoreWith15CategorizedBooks;
     }

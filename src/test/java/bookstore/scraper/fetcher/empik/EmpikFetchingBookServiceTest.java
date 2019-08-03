@@ -14,10 +14,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import static bookstore.scraper.dataprovider.EmpikBookProvider.prepare15CrimeBooks;
-import static bookstore.scraper.dataprovider.EmpikBookProvider.prepare5Bestsellers;
-import static bookstore.scraper.dataprovider.EmpikBookProvider.prepareMostPreciseBook;
-import static org.assertj.core.api.Assertions.assertThat;
+import static bookstore.scraper.dataprovider.EmpikBookProvider.*;
 import static org.junit.Assert.assertEquals;
 
 
@@ -37,7 +34,6 @@ public class EmpikFetchingBookServiceTest {
         List<Book> expectedBooks = prepare15CrimeBooks();
 
         assertEquals(expectedBooks, actualBooks);
-        assertThat(actualBooks).hasSize(expectedBooks.size());
     }
 
     @Test
@@ -49,7 +45,6 @@ public class EmpikFetchingBookServiceTest {
         List<Book> expectedBooks = prepare5Bestsellers();
 
         assertEquals(expectedBooks, actualBooks);
-        assertThat(actualBooks).hasSize(expectedBooks.size());
     }
 
     @Test

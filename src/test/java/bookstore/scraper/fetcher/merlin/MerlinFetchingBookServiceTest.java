@@ -2,7 +2,6 @@ package bookstore.scraper.fetcher.merlin;
 
 import bookstore.scraper.book.Book;
 import bookstore.scraper.fetcher.empik.EmpikFetchingBookServiceTest;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
@@ -16,9 +15,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 
-
 import static bookstore.scraper.dataprovider.MerlinBookProvider.*;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
 @SpringBootTest
@@ -48,7 +45,6 @@ public class MerlinFetchingBookServiceTest {
         List<Book> expectedBooks = prepare5Bestsellers();
 
         assertEquals(expectedBooks, actualBooks);
-        assertThat(actualBooks).hasSize(expectedBooks.size());
     }
 
     @Test
@@ -60,7 +56,6 @@ public class MerlinFetchingBookServiceTest {
         List<Book> expectedBooks = prepare15CrimeBooks();
 
         assertEquals(expectedBooks, actualBooks);
-        assertThat(actualBooks).hasSize(expectedBooks.size());
     }
 
     private File getFile(String resourceName) {
