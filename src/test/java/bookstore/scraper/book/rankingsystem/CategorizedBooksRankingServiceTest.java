@@ -1,4 +1,4 @@
-package bookstore.scraper.rankingsystem;
+package bookstore.scraper.book.rankingsystem;
 
 import bookstore.scraper.book.Book;
 import bookstore.scraper.book.scrapingtypeservice.CategorizedBookService;

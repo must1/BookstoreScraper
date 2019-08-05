@@ -6,7 +6,7 @@ import bookstore.scraper.book.scrapingtypeservice.BestSellersService;
 import bookstore.scraper.book.scrapingtypeservice.CategorizedBookService;
 import bookstore.scraper.book.scrapingtypeservice.MostPreciseBookService;
 import bookstore.scraper.enums.CategoryType;
-import bookstore.scraper.rankingsystem.CategorizedBooksRankingService;
+import bookstore.scraper.book.rankingsystem.CategorizedBooksRankingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
