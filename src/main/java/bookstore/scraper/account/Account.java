@@ -14,4 +14,13 @@ public class Account {
     private int id;
     private String nickname;
     private String password;
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", nickname='" + nickname + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }

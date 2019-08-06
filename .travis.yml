@@ -1,3 +1,5 @@
+dist: xenial
+sudo: required
 language: java
 
 addons:
@@ -5,21 +7,26 @@ addons:
     organization: "must1"
     token:
       secure: 8c11bdfaf1350de68bfa2e2678ff8d12f70deaf0 # encrypted value of your token
-  postgresql: "11.2"
-script:
-# the following command line builds the project, runs the tests with coverage and then execute the SonarCloud analysis
-- mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
-  -bundle exec rake spec
+    postgresql: '11.1'
+
+services:
+- postgresql
+before_script:
+- psql -c 'create database bookstore_scraper' -U postgres
+
 before_install:
 - sudo apt-get update
 - sudo apt-get --yes remove postgresql\*
 - sudo apt-get install -y postgresql-11 postgresql-client-11
 - sudo cp /etc/postgresql/{9.6,11}/main/pg_hba.conf
 - sudo service postgresql restart 11
-before_script:
-- psql --version
-- psql -c 'CREATE DATABASE bookstore_scraper;' -U postgres
-- psql -c 'CREATE ROLE travis SUPERUSER LOGIN CREATEDB;' -U postgres
-- cp config/database.yml.travis config/database.yml
-services:
-- postgresql
+
+
+env:
+  global:
+  - PGUSER=postgres
+  - PGPORT=5432
+  - PGPASSWORD=1234
+script:
+- psql -c "SELECT version();"
+- mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar

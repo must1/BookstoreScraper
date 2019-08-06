@@ -58,15 +58,15 @@ public class CategorizedBooksRankingService {
     private Map<Bookstore, List<Book>> chooseGetterImplementationByCategory(CategoryType categoryType) {
         Map<Bookstore, List<Book>> map = new EnumMap<>(Bookstore.class);
 
-        if (categoryType.equals(CategoryType.CRIME))
+        if (categoryType == CategoryType.CRIME)
             map = categorizedBookService.get15BooksFromCrimeCategory();
-        if (categoryType.equals(CategoryType.ROMANCES))
+        if (categoryType == CategoryType.ROMANCES)
             map = categorizedBookService.get15BooksFromRomanceCategory();
-        if (categoryType.equals(CategoryType.FANTASY))
+        if (categoryType == CategoryType.FANTASY)
             map = categorizedBookService.get15BooksFromFantasyCategory();
-        if (categoryType.equals(CategoryType.GUIDES))
+        if (categoryType == CategoryType.GUIDES)
             map = categorizedBookService.get15BooksFromGuidesCategory();
-        if (categoryType.equals(CategoryType.BIOGRAPHY))
+        if (categoryType == CategoryType.BIOGRAPHY)
             map = categorizedBookService.get15BooksFromBiographiesCategory();
 
         return map;

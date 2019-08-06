@@ -1,5 +1,6 @@
-package bookstore.scraper.configuration.security;
+package bookstore.scraper.configuration;
 
+import bookstore.scraper.account.security.AccountDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

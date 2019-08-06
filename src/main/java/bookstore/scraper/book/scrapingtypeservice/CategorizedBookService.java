@@ -15,20 +15,19 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
-
 @Service
 @Slf4j
 public class CategorizedBookService {
 
-    private final EmpikFetchingBookService empikBookService;
+    private final EmpikFetchingBookService empikFetchingBookService;
     private final MerlinFetchingBookService merlinFetchingBookService;
     private final EmpikUrlProperties empikUrlProperties;
     private final MerlinUrlProperties merlinUrlProperties;
     private final JSoupConnector jSoupConnector;
 
     @Autowired
-    public CategorizedBookService(EmpikFetchingBookService empikBookService, MerlinFetchingBookService merlinFetchingBookService, EmpikUrlProperties empikUrlProperties, MerlinUrlProperties merlinUrlProperties, JSoupConnector jSoupConnector) {
-        this.empikBookService = empikBookService;
+    public CategorizedBookService(EmpikFetchingBookService empikFetchingBookService, MerlinFetchingBookService merlinFetchingBookService, EmpikUrlProperties empikUrlProperties, MerlinUrlProperties merlinUrlProperties, JSoupConnector jSoupConnector) {
+        this.empikFetchingBookService = empikFetchingBookService;
         this.merlinFetchingBookService = merlinFetchingBookService;
         this.empikUrlProperties = empikUrlProperties;
         this.merlinUrlProperties = merlinUrlProperties;
@@ -58,7 +57,7 @@ public class CategorizedBookService {
     private Map<Bookstore, List<Book>> get15BooksFrom(String bookStoreEmpikURL, String bookStoreMerlinURL) {
         Map<Bookstore, List<Book>> bookstoreWith15CategorizedBooks = new EnumMap<>(Bookstore.class);
 
-        bookstoreWith15CategorizedBooks.put(Bookstore.EMPIK, empikBookService
+        bookstoreWith15CategorizedBooks.put(Bookstore.EMPIK, empikFetchingBookService
                 .get15BooksFromCategory(jSoupConnector.connect(bookStoreEmpikURL)));
         bookstoreWith15CategorizedBooks.put(Bookstore.MERLIN, merlinFetchingBookService
                 .get15BooksFromCategory(jSoupConnector.connect(bookStoreMerlinURL)));

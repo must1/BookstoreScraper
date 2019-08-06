@@ -1,4 +1,4 @@
-package bookstore.scraper.configuration.security;
+package bookstore.scraper.account.security;
 
 import bookstore.scraper.account.Account;
 import edu.emory.mathcs.backport.java.util.Collections;
@@ -16,9 +16,8 @@ public class AccountPrincipal implements UserDetails {
         this.account = account;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("USER"));
+    public int getId() {
+        return account.getId();
     }
 
     @Override
@@ -49,5 +48,10 @@ public class AccountPrincipal implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singleton(new SimpleGrantedAuthority("USER"));
     }
 }
