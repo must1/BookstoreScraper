@@ -31,12 +31,12 @@ public class MerlinFetchingBookService {
         String productID = document.select("div.grid__col.grid__col--20-80-80.b-products-wrap > ul > li:nth-child(1)").first().attr("data-ppc-id");
         String bookUrl = createBookUrl(title, productID);
 
-        return new Book.BookBuilder()
-                .withAuthor(author)
-                .withPrice(price)
-                .withTitle(title)
-                .withProductID(productID)
-                .withBookUrl(bookUrl)
+        return Book.builder()
+                .author(author)
+                .price(price)
+                .title(title)
+                .productID(productID)
+                .bookURL(bookUrl)
                 .build();
     }
 
@@ -62,12 +62,12 @@ public class MerlinFetchingBookService {
         String productID = siteElements.first().attr("data-ppc-id");
         String bookUrl = createBookUrl(title, productID);
 
-        return new Book.BookBuilder()
-                .withAuthor(author)
-                .withPrice(price)
-                .withTitle(title)
-                .withProductID(productID)
-                .withBookUrl(bookUrl)
+        return Book.builder()
+                .author(author)
+                .price(price)
+                .title(title)
+                .productID(productID)
+                .bookURL(bookUrl)
                 .build();
     }
 

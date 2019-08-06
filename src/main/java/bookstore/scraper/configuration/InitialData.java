@@ -22,14 +22,14 @@ public class InitialData {
     public void addUsersToDB() {
         log.info("Persisted account data to database");
 
-        accountRepository.save(new Account.AccountBuilder()
-                .withNickName("user")
-                .withPassword("$2a$10$iwcnDknrJDy2kHMMgsJ/MeGMMAMjjAtHWrl1VXVVpIqCby5AVXJMS") //1234
+        accountRepository.save(Account.builder()
+                .nickname("user")
+                .password("$2a$10$iwcnDknrJDy2kHMMgsJ/MeGMMAMjjAtHWrl1VXVVpIqCby5AVXJMS") //1234
                 .build());
 
-        accountRepository.save(new Account.AccountBuilder()
-                .withNickName("user2")
-                .withPassword("$2a$10$W.YbViN.Jhuhn9bV0v/zlON5Rh0pKm85QVbiDvTjADlPwp.gFuy/C") //123
+        accountRepository.save(Account.builder()
+                .nickname("user2")
+                .password("$2a$10$W.YbViN.Jhuhn9bV0v/zlON5Rh0pKm85QVbiDvTjADlPwp.gFuy/C") //123
                 .build());
     }
 }

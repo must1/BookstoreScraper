@@ -14,8 +14,8 @@ import java.util.stream.IntStream;
 @Service
 public class EmpikFetchingBookService {
 
-    private static final int FIRST_PART = 0;
-    private static final int SECOND_PART = 1;
+    private static final int FIRST_PART_PRICE = 0;
+    private static final int SECOND_PART_PRICE = 1;
 
     private static final int BESTSELLERS_NUMBER_TO_FETCH = 5;
     private static final int CATEGORIZED_BOOKS_NUMBER_TO_FETCH = 15;
@@ -36,13 +36,12 @@ public class EmpikFetchingBookService {
         String productID = document.select(DIV_PRODUCT_WRAPPER).select("a").first().attr(DATA_PRODUCT_ID);
         String bookUrl = createBookURL(title, productID);
 
-        return new Book.BookBuilder()
-                .withAuthor(author)
-                .withPrice(price)
-                .withTitle(title)
-                .withProductID(productID)
-                .withBookUrl(bookUrl)
-                .build();
+        return Book.builder()
+                .author(author)
+                .price(price)
+                .title(title)
+                .productID(productID)
+                .bookURL(bookUrl).build();
     }
 
     public List<Book> get5BestSellersEmpik(Document document) {
@@ -58,12 +57,12 @@ public class EmpikFetchingBookService {
                     String productID = siteElements.get(iteratedElement).select(DIV_PRODUCT_WRAPPER).select("a").first().attr(DATA_PRODUCT_ID);
                     String bookUrl = createBookURL(title, productID);
 
-                    empikBestSellers.add(new Book.BookBuilder()
-                            .withAuthor(author)
-                            .withPrice(price)
-                            .withTitle(title)
-                            .withProductID(productID)
-                            .withBookUrl(bookUrl)
+                    empikBestSellers.add(Book.builder()
+                            .author(author)
+                            .price(price)
+                            .title(title)
+                            .productID(productID)
+                            .bookURL(bookUrl)
                             .build());
                 });
         return empikBestSellers;
@@ -82,12 +81,12 @@ public class EmpikFetchingBookService {
                     String productID = siteElements.get(iteratedElement).select("a").first().attr(DATA_PRODUCT_ID);
                     String bookUrl = createBookURL(title, productID);
 
-                    books.add(new Book.BookBuilder()
-                            .withAuthor(author)
-                            .withPrice(price)
-                            .withTitle(title)
-                            .withProductID(productID)
-                            .withBookUrl(bookUrl)
+                    books.add(Book.builder()
+                            .author(author)
+                            .price(price)
+                            .title(title)
+                            .productID(productID)
+                            .bookURL(bookUrl)
                             .build());
                 });
 
@@ -96,7 +95,7 @@ public class EmpikFetchingBookService {
 
     private String convertEmpikPriceWithPossibleDiscountToActualPrice(String price) {
         String[] splittedElements = price.split("\\s+");
-        return splittedElements[FIRST_PART] + splittedElements[SECOND_PART];
+        return splittedElements[FIRST_PART_PRICE] + splittedElements[SECOND_PART_PRICE];
     }
 
     private String createBookURL(String title, String productID) {
