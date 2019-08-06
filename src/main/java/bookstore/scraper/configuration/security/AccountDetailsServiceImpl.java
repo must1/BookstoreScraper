@@ -1,4 +1,4 @@
-package bookstore.scraper.account.security;
+package bookstore.scraper.configuration.security;
 
 import bookstore.scraper.account.Account;
 import bookstore.scraper.account.AccountRepository;
