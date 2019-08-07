@@ -1,7 +1,7 @@
+/*
 package bookstore.scraper.book.rankingsystem;
 
 import bookstore.scraper.book.Book;
-import bookstore.scraper.book.scrapingtypeservice.CategorizedBookService;
 import bookstore.scraper.enums.Bookstore;
 import bookstore.scraper.enums.CategoryType;
 import org.junit.Test;
@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
 public class CategorizedBooksRankingServiceTest {
 
     @Mock
-    CategorizedBookService categorizedBookService;
+    CategorizedBooksRankingService categorizedBookService;
 
     @InjectMocks
     CategorizedBooksRankingService categorizedBooksRankingService;
@@ -31,11 +31,11 @@ public class CategorizedBooksRankingServiceTest {
     public void getRankingForCrimeCategory() {
         Map<Bookstore, List<Book>> bookstoreWith15CrimeBooks = prepareMapWithBookstoreAndCrimeBooks();
 
-        when(categorizedBookService.get15BooksFromCrimeCategory()).thenReturn(bookstoreWith15CrimeBooks);
+        when(categorizedBookService.getRankingForCategory(CategoryType.CRIME)).thenReturn(bookstoreWith15CrimeBooks);
 
         Map<String, Integer> actualMap = categorizedBooksRankingService.getRankingForCategory(CategoryType.CRIME);
         Map<String, Integer> expectedMap = prepareExpectedRankingMap();
 
         assertEquals(expectedMap, actualMap);
     }
-}
+}*/

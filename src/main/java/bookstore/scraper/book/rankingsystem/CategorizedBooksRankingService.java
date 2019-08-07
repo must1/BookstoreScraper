@@ -1,14 +1,17 @@
 package bookstore.scraper.book.rankingsystem;
 
 import bookstore.scraper.book.Book;
-import bookstore.scraper.book.scrapingtypeservice.CategorizedBookService;
 import bookstore.scraper.enums.Bookstore;
 import bookstore.scraper.enums.CategoryType;
+import bookstore.scraper.book.BookService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.*;
@@ -17,11 +20,11 @@ import static java.util.stream.Collectors.*;
 @Component
 public class CategorizedBooksRankingService {
 
-    private final CategorizedBookService categorizedBookService;
+    private final BookService bookService;
 
     @Autowired
-    public CategorizedBooksRankingService(CategorizedBookService categorizedBookService) {
-        this.categorizedBookService = categorizedBookService;
+    public CategorizedBooksRankingService(BookService bookService) {
+        this.bookService = bookService;
     }
 
     public Map<String, Integer> getRankingForCategory(CategoryType category) {
@@ -56,19 +59,6 @@ public class CategorizedBooksRankingService {
     }
 
     private Map<Bookstore, List<Book>> chooseGetterImplementationByCategory(CategoryType categoryType) {
-        Map<Bookstore, List<Book>> map = new EnumMap<>(Bookstore.class);
-
-        if (categoryType == CategoryType.CRIME)
-            map = categorizedBookService.get15BooksFromCrimeCategory();
-        if (categoryType == CategoryType.ROMANCES)
-            map = categorizedBookService.get15BooksFromRomanceCategory();
-        if (categoryType == CategoryType.FANTASY)
-            map = categorizedBookService.get15BooksFromFantasyCategory();
-        if (categoryType == CategoryType.GUIDES)
-            map = categorizedBookService.get15BooksFromGuidesCategory();
-        if (categoryType == CategoryType.BIOGRAPHY)
-            map = categorizedBookService.get15BooksFromBiographiesCategory();
-
-        return map;
+        return bookService.getBooksByCategory(categoryType);
     }
 }

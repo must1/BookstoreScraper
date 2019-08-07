@@ -1,12 +1,10 @@
 package bookstore.scraper.controller;
 
-import bookstore.scraper.enums.Bookstore;
 import bookstore.scraper.book.Book;
-import bookstore.scraper.book.scrapingtypeservice.BestSellersService;
-import bookstore.scraper.book.scrapingtypeservice.CategorizedBookService;
-import bookstore.scraper.book.scrapingtypeservice.MostPreciseBookService;
-import bookstore.scraper.enums.CategoryType;
+import bookstore.scraper.book.BookService;
 import bookstore.scraper.book.rankingsystem.CategorizedBooksRankingService;
+import bookstore.scraper.enums.Bookstore;
+import bookstore.scraper.enums.CategoryType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,56 +16,32 @@ import java.util.Map;
 @RestController
 public class BookController {
 
-    private final MostPreciseBookService mostPreciseBookService;
-    private final CategorizedBookService categorizedBookService;
-    private final BestSellersService bestSellersService;
-    private final CategorizedBooksRankingService categorizedBooksRanking;
+    private final CategorizedBooksRankingService categorizedBooksRankingService;
+    private final BookService bookService;
 
     @Autowired
-    public BookController(MostPreciseBookService bookOperationsService, CategorizedBookService categorizedBookService, BestSellersService bestSellersService, CategorizedBooksRankingService categorizedBooksRanking) {
-        this.mostPreciseBookService = bookOperationsService;
-        this.categorizedBookService = categorizedBookService;
-        this.bestSellersService = bestSellersService;
-        this.categorizedBooksRanking = categorizedBooksRanking;
+    public BookController(CategorizedBooksRankingService categorizedBooksRankingService, BookService bookService) {
+        this.categorizedBooksRankingService = categorizedBooksRankingService;
+        this.bookService = bookService;
     }
 
     @GetMapping("/bestsellers")
     public Map<Bookstore, List<Book>> getBestSellers() {
-        return bestSellersService.getBestSellers();
+        return bookService.getBestsellers();
     }
 
     @GetMapping("/book/{title}")
     public Map<Bookstore, Book> getBookByTitle(@PathVariable String title) {
-        return mostPreciseBookService.getBookByTitle(title);
+        return bookService.getMostPreciseBOok(title);
     }
 
-    @GetMapping("/romances")
-    public Map<Bookstore, List<Book>> get15RomanticBooks() {
-        return categorizedBookService.get15BooksFromRomanceCategory();
-    }
-
-    @GetMapping("/biographies")
-    public Map<Bookstore, List<Book>> get15BiographiesBooks() {
-        return categorizedBookService.get15BooksFromBiographiesCategory();
-    }
-
-    @GetMapping("/guides")
-    public Map<Bookstore, List<Book>> get15GuidesBooks() {
-        return categorizedBookService.get15BooksFromGuidesCategory();
-    }
-
-    @GetMapping("/fantasy")
-    public Map<Bookstore, List<Book>> get15FantasyBooks() {
-        return categorizedBookService.get15BooksFromFantasyCategory();
-    }
-
-    @GetMapping("/crime")
-    public Map<Bookstore, List<Book>> get15CrimeBooks() {
-        return categorizedBookService.get15BooksFromCrimeCategory();
+    @GetMapping("/{categoryType}")
+    public Map<Bookstore, List<Book>> get15RomanticBooks(@PathVariable CategoryType categoryType) {
+        return bookService.getBooksByCategory(categoryType);
     }
 
     @GetMapping("/{categoryType}/ranking")
     public Map<String, Integer> getRankingForCategory(@PathVariable CategoryType categoryType) {
-        return categorizedBooksRanking.getRankingForCategory(CategoryType.forName(categoryType));
+        return categorizedBooksRankingService.getRankingForCategory(CategoryType.forName(categoryType));
     }
 }

@@ -1,7 +1,7 @@
-package bookstore.scraper.fetcher.merlin;
+/*
+package bookstore.scraper.booksource.merlin;
 
 import bookstore.scraper.book.Book;
-import bookstore.scraper.fetcher.empik.EmpikFetchingBookServiceTest;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.Test;
@@ -23,14 +23,14 @@ import static org.junit.Assert.assertEquals;
 public class MerlinFetchingBookServiceTest {
 
     @Autowired
-    private MerlinFetchingBookService merlinFetchingBookService;
+    private MerlinSource merlinSource;
 
     @Test
     public void getMostPreciseMerlinBook() throws IOException {
         File in = getFile("/merlin/MostPreciseBookMerlin.html");
         Document doc = Jsoup.parse(in, "UTF-8");
 
-        Book actualBooks = merlinFetchingBookService.getMostPreciseMerlinBook(doc);
+        Book actualBooks = merlinSource.getMostPreciseBook("Title");
         Book expectedBooks = prepareMostPreciseBook();
 
         assertEquals(expectedBooks, actualBooks);
@@ -65,4 +65,4 @@ public class MerlinFetchingBookServiceTest {
             throw new IllegalStateException(e);
         }
     }
-}
+}*/

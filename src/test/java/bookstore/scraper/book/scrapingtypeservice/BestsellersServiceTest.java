@@ -1,11 +1,10 @@
+/*
 package bookstore.scraper.book.scrapingtypeservice;
 
 import bookstore.scraper.book.Book;
 import bookstore.scraper.dataprovider.EmpikBookProvider;
 import bookstore.scraper.dataprovider.MerlinBookProvider;
 import bookstore.scraper.enums.Bookstore;
-import bookstore.scraper.fetcher.empik.EmpikFetchingBookService;
-import bookstore.scraper.fetcher.merlin.MerlinFetchingBookService;
 import bookstore.scraper.urlproperties.EmpikUrlProperties;
 import bookstore.scraper.urlproperties.MerlinUrlProperties;
 import bookstore.scraper.utilities.JSoupConnector;
@@ -27,10 +26,6 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class BestsellersServiceTest {
 
-    @Mock
-    private EmpikFetchingBookService empikBookService;
-    @Mock
-    private MerlinFetchingBookService merlinBookService;
     @Mock
     private EmpikUrlProperties empikUrlProperties;
     @Mock
@@ -68,3 +63,4 @@ public class BestsellersServiceTest {
         assertEquals(expectedMap, actualMap);
     }
 }
+*/

@@ -1,6 +1,5 @@
 package bookstore.scraper.controller;
 
-
 import bookstore.scraper.account.Account;
 import bookstore.scraper.account.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
