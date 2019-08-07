@@ -11,10 +11,7 @@ import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.IntStream;
 
 @Service
@@ -120,7 +117,7 @@ public class EmpikSource implements BookServiceSource {
     }
 
     private Map<CategoryType, String> createCategoryToEmpikURLMap() {
-        Map<CategoryType, String> map = new HashMap<>();
+        Map<CategoryType, String> map = new EnumMap<>(CategoryType.class);
 
         map.put(CategoryType.CRIME, empikUrlProperties.getEmpik().getCrime());
         map.put(CategoryType.BESTSELLER, empikUrlProperties.getEmpik().getBestSellers());

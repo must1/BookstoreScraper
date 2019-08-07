@@ -19,7 +19,7 @@ public class AccountDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String nickname) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String nickname) {
         Account account = accountRepository.findByNickname(nickname)
                 .orElseThrow(() -> new UsernameNotFoundException("Account does not exist!"));
 

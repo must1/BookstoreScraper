@@ -29,7 +29,7 @@ public class BookService {
     public Map<Bookstore, Book> getMostPreciseBOok(String title) {
         return sources.stream()
                 .collect(Collectors.toMap(BookServiceSource::getName,
-                        sources -> sources.getMostPreciseBook(title)));
+                        source -> source.getMostPreciseBook(title)));
     }
 
     public Map<Bookstore, List<Book>> getBestsellers() {

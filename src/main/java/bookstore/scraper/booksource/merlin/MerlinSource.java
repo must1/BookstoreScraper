@@ -11,7 +11,7 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -101,7 +101,7 @@ public class MerlinSource implements BookServiceSource {
     }
 
     private Map<CategoryType, String> createCategoryToMerlinURLMap() {
-        Map<CategoryType, String> map = new HashMap<>();
+        Map<CategoryType, String> map = new EnumMap<>(CategoryType.class);
 
         map.put(CategoryType.CRIME, merlinUrlProperties.getMerlin().getCrime());
         map.put(CategoryType.BESTSELLER, merlinUrlProperties.getMerlin().getBestSellers());
