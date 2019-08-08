@@ -1,7 +1,7 @@
-package bookstore.scraper.booksource.empik;
+package bookstore.scraper.book.booksource.empik;
 
 import bookstore.scraper.book.Book;
-import bookstore.scraper.booksource.BookServiceSource;
+import bookstore.scraper.book.booksource.BookServiceSource;
 import bookstore.scraper.enums.Bookstore;
 import bookstore.scraper.enums.CategoryType;
 import bookstore.scraper.urlproperties.EmpikUrlProperties;
@@ -119,13 +119,13 @@ public class EmpikSource implements BookServiceSource {
     private Map<CategoryType, String> createCategoryToEmpikURLMap() {
         Map<CategoryType, String> map = new EnumMap<>(CategoryType.class);
 
-        map.put(CategoryType.CRIME, empikUrlProperties.getEmpik().getCrime());
-        map.put(CategoryType.BESTSELLER, empikUrlProperties.getEmpik().getBestSellers());
-        map.put(CategoryType.BIOGRAPHY, empikUrlProperties.getEmpik().getBiographies());
-        map.put(CategoryType.FANTASY, empikUrlProperties.getEmpik().getFantasy());
-        map.put(CategoryType.GUIDES, empikUrlProperties.getEmpik().getGuides());
-        map.put(CategoryType.MOST_PRECISE_BOOK, empikUrlProperties.getEmpik().getMostPreciseBook());
-        map.put(CategoryType.ROMANCES, empikUrlProperties.getEmpik().getRomances());
+        map.put(CategoryType.CRIME, empikUrlProperties.getCrime());
+        map.put(CategoryType.BESTSELLER, empikUrlProperties.getBestSellers());
+        map.put(CategoryType.BIOGRAPHY, empikUrlProperties.getBiographies());
+        map.put(CategoryType.FANTASY, empikUrlProperties.getFantasy());
+        map.put(CategoryType.GUIDES, empikUrlProperties.getGuides());
+        map.put(CategoryType.MOST_PRECISE_BOOK, empikUrlProperties.getMostPreciseBook());
+        map.put(CategoryType.ROMANCES, empikUrlProperties.getRomances());
 
         return map;
     }
@@ -136,7 +136,7 @@ public class EmpikSource implements BookServiceSource {
     }
 
     private String createBookURL(String title, String productID) {
-        return String.format(empikUrlProperties.getEmpik().getConcreteBook(), title, productID);
+        return String.format(empikUrlProperties.getConcreteBook(), title, productID);
     }
 
     //method is required as on empik site, sometimes occurs null for author and we need to change code for fetching

@@ -1,6 +1,6 @@
 package bookstore.scraper.book;
 
-import bookstore.scraper.booksource.BookServiceSource;
+import bookstore.scraper.book.booksource.BookServiceSource;
 import bookstore.scraper.enums.Bookstore;
 import bookstore.scraper.enums.CategoryType;
 import org.springframework.beans.factory.annotation.Autowired;

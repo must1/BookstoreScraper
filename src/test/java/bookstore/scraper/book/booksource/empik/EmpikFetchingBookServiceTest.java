@@ -15,8 +15,7 @@
 //import java.util.List;
 //
 //import static bookstore.scraper.dataprovider.EmpikBookProvider.*;
-//import static org.junit.Assert.assertEquals;
-//
+//import static orga.junit.Assert.assertEquals;
 //
 //@SpringBootTest
 //@RunWith(SpringRunner.class)

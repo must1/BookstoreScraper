@@ -1,5 +1,5 @@
 /*
-package bookstore.scraper.booksource.merlin;
+package bookstore.scraper.book.booksource.merlin;
 
 import bookstore.scraper.book.Book;
 import org.jsoup.Jsoup;

@@ -8,22 +8,15 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 @Component
-@ConfigurationProperties("external.library.url")
+@ConfigurationProperties("external.library.url.merlin")
 public class MerlinUrlProperties {
 
-    private Merlin merlin = new Merlin();
-
-    @Getter
-    @Setter
-    public static class Merlin {
-
-        private String mostPreciseBook;
-        private String bestSellers;
-        private String concreteBook;
-        private String romances;
-        private String biographies;
-        private String crime;
-        private String guides;
-        private String fantasy;
-    }
+    private String mostPreciseBook;
+    private String bestSellers;
+    private String concreteBook;
+    private String romances;
+    private String biographies;
+    private String crime;
+    private String guides;
+    private String fantasy;
 }

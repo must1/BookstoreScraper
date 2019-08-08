@@ -1,7 +1,7 @@
-package bookstore.scraper.booksource.merlin;
+package bookstore.scraper.book.booksource.merlin;
 
 import bookstore.scraper.book.Book;
-import bookstore.scraper.booksource.BookServiceSource;
+import bookstore.scraper.book.booksource.BookServiceSource;
 import bookstore.scraper.enums.Bookstore;
 import bookstore.scraper.enums.CategoryType;
 import bookstore.scraper.urlproperties.MerlinUrlProperties;
@@ -97,19 +97,19 @@ public class MerlinSource implements BookServiceSource {
     }
 
     private String createBookUrl(String title, String productID) {
-        return String.format(merlinUrlProperties.getMerlin().getConcreteBook(), title, productID);
+        return String.format(merlinUrlProperties.getConcreteBook(), title, productID);
     }
 
     private Map<CategoryType, String> createCategoryToMerlinURLMap() {
         Map<CategoryType, String> map = new EnumMap<>(CategoryType.class);
 
-        map.put(CategoryType.CRIME, merlinUrlProperties.getMerlin().getCrime());
-        map.put(CategoryType.BESTSELLER, merlinUrlProperties.getMerlin().getBestSellers());
-        map.put(CategoryType.BIOGRAPHY, merlinUrlProperties.getMerlin().getBiographies());
-        map.put(CategoryType.FANTASY, merlinUrlProperties.getMerlin().getFantasy());
-        map.put(CategoryType.GUIDES, merlinUrlProperties.getMerlin().getGuides());
-        map.put(CategoryType.MOST_PRECISE_BOOK, merlinUrlProperties.getMerlin().getMostPreciseBook());
-        map.put(CategoryType.ROMANCES, merlinUrlProperties.getMerlin().getRomances());
+        map.put(CategoryType.CRIME, merlinUrlProperties.getCrime());
+        map.put(CategoryType.BESTSELLER, merlinUrlProperties.getBestSellers());
+        map.put(CategoryType.BIOGRAPHY, merlinUrlProperties.getBiographies());
+        map.put(CategoryType.FANTASY, merlinUrlProperties.getFantasy());
+        map.put(CategoryType.GUIDES, merlinUrlProperties.getGuides());
+        map.put(CategoryType.MOST_PRECISE_BOOK, merlinUrlProperties.getMostPreciseBook());
+        map.put(CategoryType.ROMANCES, merlinUrlProperties.getRomances());
 
         return map;
     }
