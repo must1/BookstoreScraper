@@ -3,15 +3,13 @@ package bookstore.scraper.account.security;
 import bookstore.scraper.account.Account;
 import edu.emory.mathcs.backport.java.util.Collections;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.Serializable;
 import java.util.Collection;
 
-public class AccountPrincipal implements UserDetails, Serializable {
+public class AccountPrincipal implements UserDetails {
 
-    private Account account;
+    private transient Account account;
 
     public AccountPrincipal(Account account) {
         this.account = account;
@@ -53,6 +51,6 @@ public class AccountPrincipal implements UserDetails, Serializable {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("USER"));
+        return Collections.singleton(("USER"));
     }
 }

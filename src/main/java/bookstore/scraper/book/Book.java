@@ -6,7 +6,6 @@ import java.util.Objects;
 
 @Value
 @Builder
-//@Entity
 public class Book {
 
     private String title;

@@ -1,26 +1,25 @@
 package bookstore.scraper.book;
 
+import bookstore.scraper.account.LoggedAccountService;
 import bookstore.scraper.book.booksource.BookServiceSource;
-import bookstore.scraper.book.booksource.empik.EmpikSource;
-import bookstore.scraper.book.booksource.merlin.MerlinSource;
 import bookstore.scraper.dataprovider.EmpikBookProvider;
 import bookstore.scraper.dataprovider.MerlinBookProvider;
 import bookstore.scraper.enums.Bookstore;
 import bookstore.scraper.enums.CategoryType;
-import bookstore.scraper.urlproperties.EmpikUrlProperties;
-import bookstore.scraper.urlproperties.MerlinUrlProperties;
-import bookstore.scraper.utilities.JSoupConnector;
-import org.jsoup.nodes.Document;
+import bookstore.scraper.historysystem.HistorySystemService;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static bookstore.scraper.dataprovider.MergedBestsellersMapProvider.prepareExpectedMergedBestSellerMap;
+import static bookstore.scraper.dataprovider.MergedMapProvider.prepareCrimeBooksMap;
+import static bookstore.scraper.dataprovider.MergedMapProvider.prepareExpectedMergedBestSellerMap;
+import static bookstore.scraper.dataprovider.MergedMapProvider.prepareExpectedMergedMostPreciseBookMap;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -29,54 +28,84 @@ import static org.mockito.Mockito.when;
 public class BookServiceTest {
 
     @Mock
-    MerlinSource merlinSource;
+    HistorySystemService historySystemService;
     @Mock
-    EmpikSource empikSource;
-    @Mock
-    BookServiceSource bookServiceSource;
-    @Mock
-    private EmpikUrlProperties empikMock;
-    @Mock
-    private MerlinUrlProperties merlinMock;
-    @Mock
-    JSoupConnector jSoupConnector;
-    @Mock
-    List<BookServiceSource> source;
+    LoggedAccountService loggedAccountService;
 
-    @InjectMocks
-    BookService bookService;
+    @Before
+    public void setUp() {
+        when(loggedAccountService.getLoggedAccountID()).thenReturn(1);
+    }
 
     @Test
     public void getBooksByCategory() {
-        List<Book> merlinBestsellers = MerlinBookProvider.prepare5Bestsellers();
-        List<Book> empikBestsellers = EmpikBookProvider.prepare5Bestsellers();
-        Document empikDocument = mock(Document.class);
-        Document merlinDocument = mock(Document.class);
+        List<Book> merlinBestsellers = MerlinBookProvider.prepare15CrimeBooks();
+        List<Book> empikBestsellers = EmpikBookProvider.prepare15CrimeBooks();
 
-        source.add(empikSource);
-        source.add(merlinSource);
-
-        when(bookServiceSource.getName()).thenReturn(Bookstore.EMPIK);
-        when(jSoupConnector.connect("https://www.empik.com/bestsellery/ksiazki")).thenReturn(empikDocument);
-        when(empikMock.getBestSellers()).thenReturn("https://www.empik.com/bestsellery/ksiazki");
+        BookServiceSource empikSource = mock(BookServiceSource.class);
+        when(empikSource.getName()).thenReturn(Bookstore.EMPIK);
         when(empikSource.getBooksByCategory(CategoryType.CRIME)).thenReturn(empikBestsellers);
 
-        when(bookServiceSource.getName()).thenReturn(Bookstore.MERLIN);
-        when(jSoupConnector.connect("https://merlin.pl/bestseller/?option_80=10349074")).thenReturn(merlinDocument);
-        when(merlinMock.getBestSellers()).thenReturn("https://merlin.pl/bestseller/?option_80=10349074");
+        BookServiceSource merlinSource = mock(BookServiceSource.class);
+        when(merlinSource.getName()).thenReturn(Bookstore.MERLIN);
         when(merlinSource.getBooksByCategory(CategoryType.CRIME)).thenReturn(merlinBestsellers);
 
-        Map<Bookstore, List<Book>> actualMap = bookService.getBooksByCategory(CategoryType.CRIME);
-        Map<Bookstore, List<Book>> expectedMap = prepareExpectedMergedBestSellerMap();
+        List<BookServiceSource> sources = new ArrayList<>();
+        sources.add(empikSource);
+        sources.add(merlinSource);
+        BookService service = new BookService(sources, historySystemService, loggedAccountService);
+
+        Map<Bookstore, List<Book>> actualMap = service.getBooksByCategory(CategoryType.CRIME);
+        Map<Bookstore, List<Book>> expectedMap = prepareCrimeBooksMap();
 
         assertEquals(expectedMap, actualMap);
     }
 
     @Test
     public void getMostPreciseBOok() {
+        Book merlinBook = MerlinBookProvider.prepareMostPreciseBook();
+        Book empikBook = EmpikBookProvider.prepareMostPreciseBook();
+
+        BookServiceSource empikSource = mock(BookServiceSource.class);
+        when(empikSource.getName()).thenReturn(Bookstore.EMPIK);
+        when(empikSource.getMostPreciseBook("")).thenReturn(empikBook);
+
+        BookServiceSource merlinSource = mock(BookServiceSource.class);
+        when(merlinSource.getName()).thenReturn(Bookstore.MERLIN);
+        when(merlinSource.getMostPreciseBook("")).thenReturn(merlinBook);
+
+        List<BookServiceSource> sources = new ArrayList<>();
+        sources.add(empikSource);
+        sources.add(merlinSource);
+        BookService service = new BookService(sources, historySystemService, loggedAccountService);
+
+        Map<Bookstore, Book> expectedMap = prepareExpectedMergedMostPreciseBookMap();
+        Map<Bookstore, Book> actualMap = service.getMostPreciseBOok("");
+
+        assertEquals(expectedMap, actualMap);
     }
 
     @Test
     public void getBestsellers() {
+        List<Book> merlinBestsellers = MerlinBookProvider.prepare5Bestsellers();
+        List<Book> empikBestsellers = EmpikBookProvider.prepare5Bestsellers();
+
+        BookServiceSource empikSource = mock(BookServiceSource.class);
+        when(empikSource.getName()).thenReturn(Bookstore.EMPIK);
+        when(empikSource.getBestSellers()).thenReturn(empikBestsellers);
+
+        BookServiceSource merlinSource = mock(BookServiceSource.class);
+        when(merlinSource.getName()).thenReturn(Bookstore.MERLIN);
+        when(merlinSource.getBestSellers()).thenReturn(merlinBestsellers);
+
+        List<BookServiceSource> sources = new ArrayList<>();
+        sources.add(empikSource);
+        sources.add(merlinSource);
+        BookService service = new BookService(sources, historySystemService, loggedAccountService);
+
+        Map<Bookstore, List<Book>> actualMap = service.getBestsellers();
+        Map<Bookstore, List<Book>> expectedMap = prepareExpectedMergedBestSellerMap();
+
+        assertEquals(expectedMap, actualMap);
     }
 }
