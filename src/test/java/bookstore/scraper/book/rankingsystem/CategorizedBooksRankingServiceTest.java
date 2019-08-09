@@ -1,9 +1,12 @@
 package bookstore.scraper.book.rankingsystem;
 
+import bookstore.scraper.account.LoggedAccountService;
 import bookstore.scraper.book.Book;
 import bookstore.scraper.book.BookService;
 import bookstore.scraper.enums.Bookstore;
 import bookstore.scraper.enums.CategoryType;
+import bookstore.scraper.historysystem.HistorySystemService;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -22,10 +25,19 @@ import static org.mockito.Mockito.when;
 public class CategorizedBooksRankingServiceTest {
 
     @Mock
+    HistorySystemService historySystemService;
+    @Mock
     BookService bookService;
+    @Mock
+    LoggedAccountService loggedAccountService;
 
     @InjectMocks
     CategorizedBooksRankingService categorizedBooksRankingService;
+
+    @Before
+    public void setUp() {
+        when(loggedAccountService.getLoggedAccountID()).thenReturn(1);
+    }
 
     @Test
     public void getRankingForCrimeCategory() {
