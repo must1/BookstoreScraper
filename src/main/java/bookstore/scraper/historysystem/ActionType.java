@@ -6,7 +6,7 @@ public enum ActionType {
     BEST_SELLERS("Fetched bestsellers"),
     MOST_PRECISE_BOOK("Fetched most precise book"),
     CATEGORIZED_BOOK("Fetched categorized books");
-    
+
     @Override
     public String toString() {
         return actionDescription;
