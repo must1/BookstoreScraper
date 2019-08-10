@@ -4,7 +4,7 @@ import bookstore.scraper.account.LoggedAccountService;
 import bookstore.scraper.book.booksource.BookServiceSource;
 import bookstore.scraper.enums.Bookstore;
 import bookstore.scraper.enums.CategoryType;
-import bookstore.scraper.historysystem.ActionDescription;
+import bookstore.scraper.historysystem.ActionType;
 import bookstore.scraper.historysystem.HistorySystemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ public class BookService {
 
     public Map<Bookstore, List<Book>> getBooksByCategory(CategoryType category) {
         historySystemService.saveAccountHistory(
-                loggedAccountService.getLoggedAccountID(), ActionDescription.CATEGORIZED_BOOK.toString());
+                loggedAccountService.getLoggedAccountID(), ActionType.CATEGORIZED_BOOK.toString());
 
         return sources.stream()
                 .collect(Collectors.toMap(BookServiceSource::getName,
@@ -38,7 +38,7 @@ public class BookService {
 
     public Map<Bookstore, Book> getMostPreciseBOok(String title) {
         historySystemService.saveAccountHistory(
-                loggedAccountService.getLoggedAccountID(), ActionDescription.MOST_PRECISE_BOOK.toString());
+                loggedAccountService.getLoggedAccountID(), ActionType.MOST_PRECISE_BOOK.toString());
 
         return sources.stream()
                 .collect(Collectors.toMap(BookServiceSource::getName,
@@ -47,7 +47,7 @@ public class BookService {
 
     public Map<Bookstore, List<Book>> getBestsellers() {
         historySystemService.saveAccountHistory(
-                loggedAccountService.getLoggedAccountID(), ActionDescription.BEST_SELLERS.toString());
+                loggedAccountService.getLoggedAccountID(), ActionType.BEST_SELLERS.toString());
 
         return sources.stream()
                 .collect(Collectors.toMap(BookServiceSource::getName,

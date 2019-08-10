@@ -5,7 +5,7 @@ import bookstore.scraper.book.Book;
 import bookstore.scraper.book.BookService;
 import bookstore.scraper.enums.Bookstore;
 import bookstore.scraper.enums.CategoryType;
-import bookstore.scraper.historysystem.ActionDescription;
+import bookstore.scraper.historysystem.ActionType;
 import bookstore.scraper.historysystem.HistorySystemService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +44,7 @@ public class CategorizedBooksRankingService {
         Map<String, Integer> bookTitleWithOccurrencesNumber = getTitleWithOccurrences(purifiedTitleWithOriginalTitles);
 
         historySystemService.saveAccountHistory
-                (loggedAccountService.getLoggedAccountID(), ActionDescription.CATEGORIZED_BOOKS_RANKING.toString());
+                (loggedAccountService.getLoggedAccountID(), ActionType.CATEGORIZED_BOOKS_RANKING.toString());
 
         return getSortedLinkedHashMapByValue(bookTitleWithOccurrencesNumber);
     }

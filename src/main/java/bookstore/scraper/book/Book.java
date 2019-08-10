@@ -8,7 +8,7 @@ import java.util.Objects;
 @Builder
 public class Book {
 
-    public static final String purifiedStringRegex = "\\P{Alnum}+";
+    public static final String PURIFIED_STRING_REGEX = "\\P{Alnum}+";
     private String title;
     private String author;
     private String productID;
@@ -16,7 +16,7 @@ public class Book {
     private String bookURL;
 
     public String getPurifiedTitle() {
-        return title.replaceAll(purifiedStringRegex, "").toLowerCase();
+        return title.replaceAll(PURIFIED_STRING_REGEX, "").toLowerCase();
     }
 
     @Override

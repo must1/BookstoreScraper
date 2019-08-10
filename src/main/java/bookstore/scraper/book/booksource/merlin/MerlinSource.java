@@ -11,9 +11,7 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -95,20 +93,6 @@ public class MerlinSource implements BookServiceSource {
 
     private String createBookUrl(String title, String productID) {
         return String.format(merlinUrlProperties.getConcreteBook(), title, productID);
-    }
-
-    private Map<CategoryType, String> createCategoryToMerlinURLMap() {
-        Map<CategoryType, String> map = new EnumMap<>(CategoryType.class);
-
-        map.put(CategoryType.CRIME, merlinUrlProperties.getCrime());
-        map.put(CategoryType.BESTSELLER, merlinUrlProperties.getBestSellers());
-        map.put(CategoryType.BIOGRAPHY, merlinUrlProperties.getBiographies());
-        map.put(CategoryType.FANTASY, merlinUrlProperties.getFantasy());
-        map.put(CategoryType.GUIDES, merlinUrlProperties.getGuides());
-        map.put(CategoryType.MOST_PRECISE_BOOK, merlinUrlProperties.getMostPreciseBook());
-        map.put(CategoryType.ROMANCES, merlinUrlProperties.getRomances());
-
-        return map;
     }
 
     private String concatUrlWithTitle(String url, String title) {
