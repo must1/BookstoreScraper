@@ -1,7 +1,7 @@
-package bookstore.scraper.booksource.empik;
+package bookstore.scraper.book.booksource.empik;
 
 import bookstore.scraper.book.Book;
-import bookstore.scraper.booksource.BookServiceSource;
+import bookstore.scraper.book.booksource.BookServiceSource;
 import bookstore.scraper.enums.Bookstore;
 import bookstore.scraper.enums.CategoryType;
 import bookstore.scraper.urlproperties.EmpikUrlProperties;
@@ -27,13 +27,11 @@ public class EmpikSource implements BookServiceSource {
 
     private final EmpikUrlProperties empikUrlProperties;
     private final JSoupConnector jSoupConnector;
-    private Map<CategoryType, String> categoryToEmpikURL;
 
     @Autowired
     public EmpikSource(EmpikUrlProperties empikUrlProperties, JSoupConnector jSoupConnector) {
         this.empikUrlProperties = empikUrlProperties;
         this.jSoupConnector = jSoupConnector;
-        categoryToEmpikURL = createCategoryToEmpikURLMap();
     }
 
     @Override
@@ -43,7 +41,7 @@ public class EmpikSource implements BookServiceSource {
 
     @Override
     public List<Book> getBooksByCategory(CategoryType categoryType) {
-        Document document = jSoupConnector.connect(categoryToEmpikURL.get(categoryType));
+        Document document = jSoupConnector.connect(empikUrlProperties.getCategory(categoryType));
 
         List<Book> books = new ArrayList<>();
         List<Element> siteElements = document.select("div.productBox__info");
@@ -71,7 +69,7 @@ public class EmpikSource implements BookServiceSource {
 
     @Override
     public Book getMostPreciseBook(String givenTitle) {
-        String concatedUrl = concatUrlWithTitle(categoryToEmpikURL.get(CategoryType.MOST_PRECISE_BOOK), givenTitle);
+        String concatedUrl = concatUrlWithTitle(empikUrlProperties.getCategory(CategoryType.MOST_PRECISE_BOOK), givenTitle);
 
         Document document = jSoupConnector.connect(concatedUrl);
 
@@ -91,7 +89,7 @@ public class EmpikSource implements BookServiceSource {
 
     @Override
     public List<Book> getBestSellers() {
-        Document document = jSoupConnector.connect(categoryToEmpikURL.get(CategoryType.BESTSELLER));
+        Document document = jSoupConnector.connect(empikUrlProperties.getCategory(CategoryType.BESTSELLER));
 
         List<Element> siteElements = document.select(DIV_PRODUCT_WRAPPER);
         List<Book> empikBestSellers = new ArrayList<>();
@@ -116,27 +114,13 @@ public class EmpikSource implements BookServiceSource {
         return empikBestSellers;
     }
 
-    private Map<CategoryType, String> createCategoryToEmpikURLMap() {
-        Map<CategoryType, String> map = new EnumMap<>(CategoryType.class);
-
-        map.put(CategoryType.CRIME, empikUrlProperties.getEmpik().getCrime());
-        map.put(CategoryType.BESTSELLER, empikUrlProperties.getEmpik().getBestSellers());
-        map.put(CategoryType.BIOGRAPHY, empikUrlProperties.getEmpik().getBiographies());
-        map.put(CategoryType.FANTASY, empikUrlProperties.getEmpik().getFantasy());
-        map.put(CategoryType.GUIDES, empikUrlProperties.getEmpik().getGuides());
-        map.put(CategoryType.MOST_PRECISE_BOOK, empikUrlProperties.getEmpik().getMostPreciseBook());
-        map.put(CategoryType.ROMANCES, empikUrlProperties.getEmpik().getRomances());
-
-        return map;
-    }
-
     private String convertEmpikPriceWithPossibleDiscountToActualPrice(String price) {
         String[] splittedElements = price.split("\\s+");
         return splittedElements[FIRST_PART_PRICE] + splittedElements[SECOND_PART_PRICE];
     }
 
     private String createBookURL(String title, String productID) {
-        return String.format(empikUrlProperties.getEmpik().getConcreteBook(), title, productID);
+        return String.format(empikUrlProperties.getConcreteBook(), title, productID);
     }
 
     //method is required as on empik site, sometimes occurs null for author and we need to change code for fetching

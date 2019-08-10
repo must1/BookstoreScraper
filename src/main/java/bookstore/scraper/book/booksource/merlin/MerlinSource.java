@@ -1,7 +1,7 @@
-package bookstore.scraper.booksource.merlin;
+package bookstore.scraper.book.booksource.merlin;
 
 import bookstore.scraper.book.Book;
-import bookstore.scraper.booksource.BookServiceSource;
+import bookstore.scraper.book.booksource.BookServiceSource;
 import bookstore.scraper.enums.Bookstore;
 import bookstore.scraper.enums.CategoryType;
 import bookstore.scraper.urlproperties.MerlinUrlProperties;
@@ -26,13 +26,10 @@ public class MerlinSource implements BookServiceSource {
     private final JSoupConnector jSoupConnector;
     private final MerlinUrlProperties merlinUrlProperties;
 
-    private Map<CategoryType, String> categoryToMerlinURL;
-
     @Autowired
     public MerlinSource(JSoupConnector jSoupConnector, MerlinUrlProperties merlinUrlProperties) {
         this.jSoupConnector = jSoupConnector;
         this.merlinUrlProperties = merlinUrlProperties;
-        categoryToMerlinURL = createCategoryToMerlinURLMap();
     }
 
     @Override
@@ -42,7 +39,7 @@ public class MerlinSource implements BookServiceSource {
 
     @Override
     public List<Book> getBooksByCategory(CategoryType categoryType) {
-        Document document = jSoupConnector.connect(categoryToMerlinURL.get(categoryType));
+        Document document = jSoupConnector.connect(merlinUrlProperties.getCategory(categoryType));
 
         return IntStream.range(1, CATEGORIZED_BOOKS_NUMBER_TO_FETCH)
                 .mapToObj(iterator -> getBestSellerOrCategorizedBook(document, iterator))
@@ -51,7 +48,7 @@ public class MerlinSource implements BookServiceSource {
 
     @Override
     public Book getMostPreciseBook(String givenTitle) {
-        String concatedUrl = concatUrlWithTitle(categoryToMerlinURL.get(CategoryType.MOST_PRECISE_BOOK), givenTitle);
+        String concatedUrl = concatUrlWithTitle(merlinUrlProperties.getCategory(CategoryType.MOST_PRECISE_BOOK), givenTitle);
 
         Document document = jSoupConnector.connect(concatedUrl);
 
@@ -72,7 +69,7 @@ public class MerlinSource implements BookServiceSource {
 
     @Override
     public List<Book> getBestSellers() {
-        Document document = jSoupConnector.connect(categoryToMerlinURL.get(CategoryType.BESTSELLER));
+        Document document = jSoupConnector.connect(merlinUrlProperties.getCategory(CategoryType.BESTSELLER));
 
         return IntStream.range(1, BESTSELLERS_NUMBER_TO_FETCH)
                 .mapToObj(iterator -> getBestSellerOrCategorizedBook(document, iterator))
@@ -97,19 +94,19 @@ public class MerlinSource implements BookServiceSource {
     }
 
     private String createBookUrl(String title, String productID) {
-        return String.format(merlinUrlProperties.getMerlin().getConcreteBook(), title, productID);
+        return String.format(merlinUrlProperties.getConcreteBook(), title, productID);
     }
 
     private Map<CategoryType, String> createCategoryToMerlinURLMap() {
         Map<CategoryType, String> map = new EnumMap<>(CategoryType.class);
 
-        map.put(CategoryType.CRIME, merlinUrlProperties.getMerlin().getCrime());
-        map.put(CategoryType.BESTSELLER, merlinUrlProperties.getMerlin().getBestSellers());
-        map.put(CategoryType.BIOGRAPHY, merlinUrlProperties.getMerlin().getBiographies());
-        map.put(CategoryType.FANTASY, merlinUrlProperties.getMerlin().getFantasy());
-        map.put(CategoryType.GUIDES, merlinUrlProperties.getMerlin().getGuides());
-        map.put(CategoryType.MOST_PRECISE_BOOK, merlinUrlProperties.getMerlin().getMostPreciseBook());
-        map.put(CategoryType.ROMANCES, merlinUrlProperties.getMerlin().getRomances());
+        map.put(CategoryType.CRIME, merlinUrlProperties.getCrime());
+        map.put(CategoryType.BESTSELLER, merlinUrlProperties.getBestSellers());
+        map.put(CategoryType.BIOGRAPHY, merlinUrlProperties.getBiographies());
+        map.put(CategoryType.FANTASY, merlinUrlProperties.getFantasy());
+        map.put(CategoryType.GUIDES, merlinUrlProperties.getGuides());
+        map.put(CategoryType.MOST_PRECISE_BOOK, merlinUrlProperties.getMostPreciseBook());
+        map.put(CategoryType.ROMANCES, merlinUrlProperties.getRomances());
 
         return map;
     }

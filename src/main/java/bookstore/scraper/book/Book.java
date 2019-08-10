@@ -6,9 +6,9 @@ import java.util.Objects;
 
 @Value
 @Builder
-//@Entity
 public class Book {
 
+    public static final String purifiedStringRegex = "\\P{Alnum}+";
     private String title;
     private String author;
     private String productID;
@@ -16,7 +16,7 @@ public class Book {
     private String bookURL;
 
     public String getPurifiedTitle() {
-        return title.replaceAll("\\P{Alnum}+", "").toLowerCase();
+        return title.replaceAll(purifiedStringRegex, "").toLowerCase();
     }
 
     @Override
@@ -31,5 +31,13 @@ public class Book {
     @Override
     public int hashCode() {
         return Objects.hash(title, author);
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                '}';
     }
 }

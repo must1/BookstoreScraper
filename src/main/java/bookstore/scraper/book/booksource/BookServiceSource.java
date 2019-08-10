@@ -1,4 +1,4 @@
-package bookstore.scraper.booksource;
+package bookstore.scraper.book.booksource;
 
 import bookstore.scraper.book.Book;
 import bookstore.scraper.enums.Bookstore;
