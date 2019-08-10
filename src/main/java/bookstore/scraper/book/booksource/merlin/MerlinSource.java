@@ -26,13 +26,10 @@ public class MerlinSource implements BookServiceSource {
     private final JSoupConnector jSoupConnector;
     private final MerlinUrlProperties merlinUrlProperties;
 
-    private Map<CategoryType, String> categoryToMerlinURL;
-
     @Autowired
     public MerlinSource(JSoupConnector jSoupConnector, MerlinUrlProperties merlinUrlProperties) {
         this.jSoupConnector = jSoupConnector;
         this.merlinUrlProperties = merlinUrlProperties;
-        categoryToMerlinURL = createCategoryToMerlinURLMap();
     }
 
     @Override
@@ -42,7 +39,7 @@ public class MerlinSource implements BookServiceSource {
 
     @Override
     public List<Book> getBooksByCategory(CategoryType categoryType) {
-        Document document = jSoupConnector.connect(categoryToMerlinURL.get(categoryType));
+        Document document = jSoupConnector.connect(merlinUrlProperties.getCategory(categoryType));
 
         return IntStream.range(1, CATEGORIZED_BOOKS_NUMBER_TO_FETCH)
                 .mapToObj(iterator -> getBestSellerOrCategorizedBook(document, iterator))
@@ -51,7 +48,7 @@ public class MerlinSource implements BookServiceSource {
 
     @Override
     public Book getMostPreciseBook(String givenTitle) {
-        String concatedUrl = concatUrlWithTitle(categoryToMerlinURL.get(CategoryType.MOST_PRECISE_BOOK), givenTitle);
+        String concatedUrl = concatUrlWithTitle(merlinUrlProperties.getCategory(CategoryType.MOST_PRECISE_BOOK), givenTitle);
 
         Document document = jSoupConnector.connect(concatedUrl);
 
@@ -72,7 +69,7 @@ public class MerlinSource implements BookServiceSource {
 
     @Override
     public List<Book> getBestSellers() {
-        Document document = jSoupConnector.connect(categoryToMerlinURL.get(CategoryType.BESTSELLER));
+        Document document = jSoupConnector.connect(merlinUrlProperties.getCategory(CategoryType.BESTSELLER));
 
         return IntStream.range(1, BESTSELLERS_NUMBER_TO_FETCH)
                 .mapToObj(iterator -> getBestSellerOrCategorizedBook(document, iterator))

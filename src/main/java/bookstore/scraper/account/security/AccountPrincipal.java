@@ -3,6 +3,7 @@ package bookstore.scraper.account.security;
 import bookstore.scraper.account.Account;
 import edu.emory.mathcs.backport.java.util.Collections;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -51,6 +52,6 @@ public class AccountPrincipal implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(("USER"));
+        return Collections.singleton(new SimpleGrantedAuthority("USER"));
     }
 }

@@ -27,13 +27,11 @@ public class EmpikSource implements BookServiceSource {
 
     private final EmpikUrlProperties empikUrlProperties;
     private final JSoupConnector jSoupConnector;
-    private Map<CategoryType, String> categoryToEmpikURL;
 
     @Autowired
     public EmpikSource(EmpikUrlProperties empikUrlProperties, JSoupConnector jSoupConnector) {
         this.empikUrlProperties = empikUrlProperties;
         this.jSoupConnector = jSoupConnector;
-        categoryToEmpikURL = createCategoryToEmpikURLMap();
     }
 
     @Override
@@ -43,7 +41,7 @@ public class EmpikSource implements BookServiceSource {
 
     @Override
     public List<Book> getBooksByCategory(CategoryType categoryType) {
-        Document document = jSoupConnector.connect(categoryToEmpikURL.get(categoryType));
+        Document document = jSoupConnector.connect(empikUrlProperties.getCategory(categoryType));
 
         List<Book> books = new ArrayList<>();
         List<Element> siteElements = document.select("div.productBox__info");
@@ -71,7 +69,7 @@ public class EmpikSource implements BookServiceSource {
 
     @Override
     public Book getMostPreciseBook(String givenTitle) {
-        String concatedUrl = concatUrlWithTitle(categoryToEmpikURL.get(CategoryType.MOST_PRECISE_BOOK), givenTitle);
+        String concatedUrl = concatUrlWithTitle(empikUrlProperties.getCategory(CategoryType.MOST_PRECISE_BOOK), givenTitle);
 
         Document document = jSoupConnector.connect(concatedUrl);
 
@@ -91,7 +89,7 @@ public class EmpikSource implements BookServiceSource {
 
     @Override
     public List<Book> getBestSellers() {
-        Document document = jSoupConnector.connect(categoryToEmpikURL.get(CategoryType.BESTSELLER));
+        Document document = jSoupConnector.connect(empikUrlProperties.getCategory(CategoryType.BESTSELLER));
 
         List<Element> siteElements = document.select(DIV_PRODUCT_WRAPPER);
         List<Book> empikBestSellers = new ArrayList<>();
@@ -114,20 +112,6 @@ public class EmpikSource implements BookServiceSource {
                             .build());
                 });
         return empikBestSellers;
-    }
-
-    private Map<CategoryType, String> createCategoryToEmpikURLMap() {
-        Map<CategoryType, String> map = new EnumMap<>(CategoryType.class);
-
-        map.put(CategoryType.CRIME, empikUrlProperties.getCrime());
-        map.put(CategoryType.BESTSELLER, empikUrlProperties.getBestSellers());
-        map.put(CategoryType.BIOGRAPHY, empikUrlProperties.getBiographies());
-        map.put(CategoryType.FANTASY, empikUrlProperties.getFantasy());
-        map.put(CategoryType.GUIDES, empikUrlProperties.getGuides());
-        map.put(CategoryType.MOST_PRECISE_BOOK, empikUrlProperties.getMostPreciseBook());
-        map.put(CategoryType.ROMANCES, empikUrlProperties.getRomances());
-
-        return map;
     }
 
     private String convertEmpikPriceWithPossibleDiscountToActualPrice(String price) {
