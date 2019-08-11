@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-public class HistorySystemController {
+public class AccountHistorySystemController {
 
     private final HistorySystemService historySystemService;
 
     @Autowired
-    public HistorySystemController(HistorySystemService historySystemService) {
+    public AccountHistorySystemController(HistorySystemService historySystemService) {
         this.historySystemService = historySystemService;
     }
 

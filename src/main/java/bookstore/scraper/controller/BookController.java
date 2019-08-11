@@ -40,7 +40,7 @@ public class BookController {
         return bookService.getBooksByCategory(categoryType);
     }
 
-    @GetMapping("/{categoryType}/ranking")
+    @GetMapping("/ranking/{categoryType}")
     public Map<String, Integer> getRankingForCategory(@PathVariable CategoryType categoryType) {
         return categorizedBooksRankingService.getRankingForCategory(CategoryType.forName(categoryType));
     }
