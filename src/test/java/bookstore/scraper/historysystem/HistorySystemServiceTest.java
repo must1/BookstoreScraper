@@ -32,10 +32,7 @@ public class HistorySystemServiceTest {
 
         when(historyRepository.existsAccountHistoriesByAccountID(anyInt())).thenReturn(false);
 
-        List<AccountHistory> actualAccountHistory = historySystemService.getHistoryOfUser(dummyAccountHistory.getAccountID());
-        List<AccountHistory> expectedAccountHistory = null;
-
-        assertEquals(expectedAccountHistory, actualAccountHistory);
+        historySystemService.getHistoryOfUser(dummyAccountHistory.getAccountID());
     }
 
     @Test
