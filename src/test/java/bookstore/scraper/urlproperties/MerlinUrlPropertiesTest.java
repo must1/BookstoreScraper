@@ -17,17 +17,33 @@ public class MerlinUrlPropertiesTest {
     MerlinUrlProperties merlinUrlProperties;
 
     @Test
-    public void getBestsellerCategory() {
+    public void getCrimeCategory() {
         String actual = merlinUrlProperties.getCategory(CategoryType.BESTSELLER);
         String expected = "https://merlin.pl/bestseller/?option_80=10349074";
 
         assertEquals(expected, actual);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void getNotExistingCategory() {
-        String actual = merlinUrlProperties.getCategory(CategoryType.DUMMY);
-        String expected = "Unexpected categoryType:" + CategoryType.DUMMY;
+    @Test
+    public void getBiographyCategory() {
+        String actual = merlinUrlProperties.getCategory(CategoryType.BIOGRAPHY);
+        String expected = "https://merlin.pl/catalog/ksiazki-m10349074/biografie-c100115/";
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void getRomancesCategory() {
+        String actual = merlinUrlProperties.getCategory(CategoryType.ROMANCES);
+        String expected = "https://merlin.pl/catalog/ksiazki-m10349074/romanse-c1774/";
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void getFantasyCategory() {
+        String actual = merlinUrlProperties.getCategory(CategoryType.FANTASY);
+        String expected = "https://merlin.pl/catalog/ksiazki-m10349074/fantastyka-c467/";
 
         assertEquals(expected, actual);
     }

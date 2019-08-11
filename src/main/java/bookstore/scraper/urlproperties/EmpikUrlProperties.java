@@ -12,7 +12,7 @@ import java.util.Objects;
 @Setter
 @Component
 @ConfigurationProperties("external.library.url.empik")
-public class EmpikUrlProperties implements CategoryProperties {
+public class EmpikUrlProperties {
 
     private String mostPreciseBook;
     private String bestSellers;

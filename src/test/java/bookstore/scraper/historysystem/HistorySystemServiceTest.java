@@ -13,6 +13,8 @@ import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -48,6 +50,15 @@ public class HistorySystemServiceTest {
         assertThat(actualAccountHistory, hasSize(1));
     }
 
+    @Test
+    public void saveAccountHistory() {
+        AccountHistory dummyAccountHistory = createDummyAccountHistory();
+        historySystemService.saveAccountHistory(dummyAccountHistory.getAccountID(), dummyAccountHistory.getActionName());
+
+        verify(historyRepository).save(dummyAccountHistory);
+        verify(historyRepository, times(1)).save(createDummyAccountHistory());
+    }
+
     private AccountHistory createDummyAccountHistory() {
         return AccountHistory
                 .builder()
@@ -55,4 +66,5 @@ public class HistorySystemServiceTest {
                 .actionName(ActionType.BEST_SELLERS.toString())
                 .build();
     }
+
 }

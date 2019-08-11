@@ -15,7 +15,7 @@ public class HistorySystemService {
         this.historyRepository = historyRepository;
     }
 
-    List<AccountHistory> getHistoryOfUser(int accountID) {
+    public List<AccountHistory> getHistoryOfUser(int accountID) {
         if (!historyRepository.existsAccountHistoriesByAccountID(accountID)) {
             throw new IllegalArgumentException("Account with that ID does not exist");
         }

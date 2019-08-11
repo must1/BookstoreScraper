@@ -12,7 +12,7 @@ import java.util.Objects;
 @Setter
 @Component
 @ConfigurationProperties("external.library.url.merlin")
-public class MerlinUrlProperties implements CategoryProperties {
+public class MerlinUrlProperties {
 
     private String mostPreciseBook;
     private String bestSellers;

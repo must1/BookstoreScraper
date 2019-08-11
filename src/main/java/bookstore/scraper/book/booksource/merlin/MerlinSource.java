@@ -5,7 +5,7 @@ import bookstore.scraper.book.booksource.BookServiceSource;
 import bookstore.scraper.enums.Bookstore;
 import bookstore.scraper.enums.CategoryType;
 import bookstore.scraper.urlproperties.MerlinUrlProperties;
-import bookstore.scraper.utilities.JSoupConnector;
+import bookstore.scraper.JSoupConnector;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;

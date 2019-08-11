@@ -3,7 +3,7 @@ package bookstore.scraper.book.booksource.empik;
 import bookstore.scraper.book.Book;
 import bookstore.scraper.enums.CategoryType;
 import bookstore.scraper.urlproperties.EmpikUrlProperties;
-import bookstore.scraper.utilities.JSoupConnector;
+import bookstore.scraper.JSoupConnector;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.junit.Test;

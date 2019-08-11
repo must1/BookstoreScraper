@@ -3,7 +3,8 @@ package bookstore.scraper.enums;
 import java.util.InputMismatchException;
 
 public enum CategoryType {
-    BIOGRAPHY, CRIME, GUIDES, FANTASY, ROMANCES,MOST_PRECISE_BOOK,BESTSELLER, DUMMY;
+    BIOGRAPHY, CRIME, GUIDES, FANTASY, ROMANCES, MOST_PRECISE_BOOK, BESTSELLER;
+
     private static final CategoryType[] copyOfValues = values();
 
     public static CategoryType forName(CategoryType name) {
