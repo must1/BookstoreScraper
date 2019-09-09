@@ -47,7 +47,7 @@ public class HistorySystemServiceTest {
     @Test
     public void saveAccountHistory() {
         AccountHistory dummyAccountHistory = createDummyAccountHistory();
-        historySystemService.saveAccountHistory(dummyAccountHistory.getAccountID(), dummyAccountHistory.getActionName());
+        historySystemService.saveAccountHistory(dummyAccountHistory.getAccountID(), ActionType.BEST_SELLERS);
 
         verify(historyRepository).save(dummyAccountHistory);
         verify(historyRepository, times(1)).save(createDummyAccountHistory());

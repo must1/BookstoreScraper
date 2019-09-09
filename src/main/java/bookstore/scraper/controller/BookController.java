@@ -32,7 +32,7 @@ public class BookController {
 
     @GetMapping("/book/{title}")
     public Map<Bookstore, Book> getBookByTitle(@PathVariable String title) {
-        return bookService.getMostPreciseBOok(title);
+        return bookService.getMostPreciseBook(title);
     }
 
     @GetMapping("/{categoryType}")

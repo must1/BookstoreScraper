@@ -80,7 +80,7 @@ public class BookServiceTest {
         BookService service = new BookService(sources, historySystemService, loggedAccountService);
 
         Map<Bookstore, Book> expectedMap = prepareExpectedMergedMostPreciseBookMap();
-        Map<Bookstore, Book> actualMap = service.getMostPreciseBOok("");
+        Map<Bookstore, Book> actualMap = service.getMostPreciseBook("");
 
         assertEquals(expectedMap, actualMap);
     }

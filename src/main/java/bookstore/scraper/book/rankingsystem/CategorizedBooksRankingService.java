@@ -44,7 +44,7 @@ public class CategorizedBooksRankingService {
         Map<String, Integer> bookTitleWithOccurrencesNumber = getTitleWithOccurrences(purifiedTitleWithOriginalTitles);
 
         historySystemService.saveAccountHistory
-                (loggedAccountService.getLoggedAccountID(), ActionType.CATEGORIZED_BOOKS_RANKING.toString());
+                (loggedAccountService.getLoggedAccountID(), ActionType.CATEGORIZED_BOOKS_RANKING);
 
         return getSortedLinkedHashMapByValue(bookTitleWithOccurrencesNumber);
     }

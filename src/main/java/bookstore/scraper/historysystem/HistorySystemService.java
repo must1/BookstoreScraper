@@ -16,14 +16,17 @@ public class HistorySystemService {
     }
 
     public List<AccountHistory> getHistoryOfUser(int accountID) {
-        if (!historyRepository.existsAccountHistoriesByAccountID(accountID)) {
+        if ( !historyRepository.existsAccountHistoriesByAccountID(accountID) ) {
             throw new IllegalArgumentException("Account with that ID does not exist");
         }
 
         return historyRepository.findAccountHistoriesByAccountID(accountID);
     }
 
-    public void saveAccountHistory(int accountID, String action) {
-        historyRepository.save(AccountHistory.builder().accountID(accountID).actionName(action).build());
+    public void saveAccountHistory(int accountID, ActionType action) {
+        historyRepository.save(AccountHistory.builder()
+                .accountID(accountID)
+                .actionName(action.toString())
+                .build());
     }
 }

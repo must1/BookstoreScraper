@@ -29,16 +29,16 @@ public class BookService {
 
     public Map<Bookstore, List<Book>> getBooksByCategory(CategoryType category) {
         historySystemService.saveAccountHistory(
-                loggedAccountService.getLoggedAccountID(), ActionType.CATEGORIZED_BOOK.toString());
+                loggedAccountService.getLoggedAccountID(), ActionType.CATEGORIZED_BOOK);
 
         return sources.stream()
                 .collect(Collectors.toMap(BookServiceSource::getName,
                         source -> source.getBooksByCategory(category)));
     }
 
-    public Map<Bookstore, Book> getMostPreciseBOok(String title) {
+    public Map<Bookstore, Book> getMostPreciseBook(String title) {
         historySystemService.saveAccountHistory(
-                loggedAccountService.getLoggedAccountID(), ActionType.MOST_PRECISE_BOOK.toString());
+                loggedAccountService.getLoggedAccountID(), ActionType.MOST_PRECISE_BOOK);
 
         return sources.stream()
                 .collect(Collectors.toMap(BookServiceSource::getName,
@@ -47,7 +47,7 @@ public class BookService {
 
     public Map<Bookstore, List<Book>> getBestsellers() {
         historySystemService.saveAccountHistory(
-                loggedAccountService.getLoggedAccountID(), ActionType.BEST_SELLERS.toString());
+                loggedAccountService.getLoggedAccountID(), ActionType.BEST_SELLERS);
 
         return sources.stream()
                 .collect(Collectors.toMap(BookServiceSource::getName,

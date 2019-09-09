@@ -19,11 +19,11 @@ public class AccountService {
             throw new IllegalArgumentException("Account with that nickname already exists");
         }
 
-        Account encryptedAccount = Account.builder()
+        Account hashedAccount = Account.builder()
                 .nickname(account.getNickname())
                 .password(BCrypt.hashpw(account.getPassword(), BCrypt.gensalt()))
                 .build();
 
-        return accountRepository.save(encryptedAccount);
+        return accountRepository.save(hashedAccount);
     }
 }
